@@ -1,10 +1,9 @@
 package com.autecho.dcc;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-
-public class Autecho extends Activity {
+public class Autecho extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
