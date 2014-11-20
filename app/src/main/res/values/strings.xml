@@ -1,8 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Autecho</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="imageviewcontentdescription">Logo title</string>
+    <string name="blank">""</string>
+    <string name="userprofile">User Profile</string>
+    <string name="connect">Connect</string>
+    <string name="bio">Bio</string>
 
+    <!-- Login Page -->
+    <string name="register">Sign Up</string>
+    <string name="alreadyhaveaccount">Already have an account with us:</string>
+    <string name="or">or</string>
+
+    <!-- Profile Page -->
+    <string name="myprofile">My Profile</string>
+
+    <!-- Registeration -->
+    <string name="requestinvitation">Request Invitation</string>
+    <string name="createaccount">Create account</string>
+    <string name="confirmaccount">Confirm email</string>
+    <string name="emailaddress">Email Address</string>
+    <string name="fullname">Fullname</string>
+    <string name="password">Create Password</string>
+    <string name="checkemailtext">Congrats!, We have sent you an email with the next steps.</string>
+    <string name="registeragain"><u>Use a different email address</u></string>
+    <string name="havingtrouble">If you are having trouble viewing the email, please check your spam folder. You can also:</string>
+    <string name="done">Done</string>
+    <string name="fullnamevalidation">Fullname cannot be blank.</string>
+    <string name="emailformatvalidation">Invalid email format</string>
+    <string name="emailexistsvalidation">Emailid in use</string>
+    <string name="passwordvalidation">Password must contain atleast 6 characters</string>
+    <string name="sendanotherconfirmationlink"><u>Get another confirmation link</u></string>
+    <string name="anotherconfirmationlink"><u>Emailid registered. Send another confirmation link</u></string>
+
+    <!-- Profile -->
+    <string name="description">A few words about yourself.</string>
+
+    <!-- Landing Page -->
+    <string name="autecho_title">Autecho</string>
+    <string name="app_id">334217063344631</string>
+
+    <!--  CreateAut -->
+    <bool name="screen_small">false</bool>
+    <string name="Iamfeeling">I am feeling</string>
+    <string name="about">about</string>
+    <string name="post">Post</string>
+
+    <!-- SearchableActivity -->
+    <string name="search_hint">Search for people or interests</string>
+    <string name="search_label">Search</string>
+    <string name="search_results">Search Results</string>
 </resources>
