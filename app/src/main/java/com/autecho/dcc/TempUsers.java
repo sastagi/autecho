@@ -38,13 +38,13 @@ public class TempUsers {
         //this.setConfirmationCode(confirmationCode);
     }
 
-    /*public String getId() {
+    public String getId() {
         return mId;
     }
 
     public final void setId(String id) {
         mId = id;
-    }*/
+    }
 
     public String getFullname() {
         return mFullname;
