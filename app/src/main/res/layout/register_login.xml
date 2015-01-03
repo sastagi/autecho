@@ -199,6 +199,12 @@
                 android:visibility="gone"
                 android:layout_below="@id/password"
                 android:text="@string/passwordvalidation"/>
+            <ProgressBar
+                android:id="@+id/loadingProgressBar"
+                android:layout_below="@id/password_validation"
+                android:layout_centerHorizontal="true"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/request_sent"

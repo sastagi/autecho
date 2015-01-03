@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/support-annotations-20.0.0-f6c79eb0d6960eb5684f88ffb6d7da2b92c200a1.jar"
+        jar="/Users/Santosh/sdk/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-0e73d445ffe06a6f5d3ddce4f7ed10a87581b2a8.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/mobileservices-1.1.5-a403c9a6f6b9b712944327e6ba6d4d60b2df27e1.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/mobileservices-1.1.5.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="12188408c45b88124cb38dd2bedc9b314b5f554b"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/gson-2.2.4-47f92ff4f79b37a6a8c34420d4b9447a7de57c3e.jar"
+        jar="/Users/Santosh/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/classes-d57260b120722344deaca4b5521ffdbbe6f77db3.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+
+</pre-dex-items>

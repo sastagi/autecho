@@ -22,4 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile files('libs/mobileservices-1.1.5.jar')
 }
