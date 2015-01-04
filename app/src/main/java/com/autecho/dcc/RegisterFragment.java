@@ -211,7 +211,7 @@ public class RegisterFragment extends Fragment{
     }
 
     public void register_Again(){
-
+           String t="";
     }
 
     public void another_confirmation(){
