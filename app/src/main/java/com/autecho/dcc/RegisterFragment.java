@@ -12,6 +12,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.autecho.helpers.Helpers;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -23,6 +29,7 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 
 import java.net.MalformedURLException;
+import java.util.UUID;
 
 
 public class RegisterFragment extends Fragment{
@@ -190,14 +197,43 @@ public class RegisterFragment extends Fragment{
 
     public void registerUser(){
         // Create a new item
-        TempUsers item = new TempUsers(fullname, emailId, password);
-
+        final String confirmationCode = UUID.randomUUID().toString();
+        TempUsers item = new TempUsers(fullname, emailId, password, confirmationCode);
+        //check if record already exists
+        //check if temp record already exists...if temp record already exists delete it
         // Insert the new item
+        //mTempTable.length(emailId);
         mTempTable.insert(item, new TableOperationCallback<TempUsers>() {
 
             public void onCompleted(TempUsers entity, Exception exception, ServiceFilterResponse response) {
 
                 if (exception == null) {
+                    //get email address and confirmation
+                    // Instantiate the RequestQueue.
+                    RequestQueue queue = Volley.newRequestQueue(getActivity());
+                    String url = "http://ixddeveloper.com/send.php?email="+emailId+"&confirmationcode="+confirmationCode+"&fullname"+fullname;
+
+                    // Request a string response from the provided URL.
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    // Display the first 500 characters of the response string.
+                                    //mTextView.setText("Response is: " + response.toString());
+                                    Log.d("EMAIL SENT TO THe USERRRR",response.toString());
+                                    //mTextView.setText("Success");
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                           // mTextView.setText("That didn't work!");
+                           Log.d("EMAIL SENT TO THe USERRRR","ERROR");
+                        }
+                    });
+                    // Add the request to the RequestQueue.
+                    queue.add(stringRequest);
+                    //send email address and confirmation code to send grid
+
                     getActivity().findViewById(R.id.request_sent).setVisibility(View.VISIBLE);
                     getActivity().findViewById(R.id.request_body).setVisibility(View.GONE);
                     getActivity().findViewById(R.id.send_email).setVisibility(View.GONE);

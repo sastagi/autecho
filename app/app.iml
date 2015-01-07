@@ -84,6 +84,7 @@
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
+    <orderEntry type="library" exported="" name="volley" level="project" />
     <orderEntry type="library" exported="" name="mobileservices-1.1.5" level="project" />
   </component>
 </module>

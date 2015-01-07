@@ -16,6 +16,10 @@ public class TempUsers {
     @com.google.gson.annotations.SerializedName("password")
     private String mPassword;
 
+    public void setConfirmationCode(String mConfirmationCode) {
+        this.mConfirmationCode = mConfirmationCode;
+    }
+
     @com.google.gson.annotations.SerializedName("confirmationcode")
     private String mConfirmationCode;
 
@@ -26,16 +30,13 @@ public class TempUsers {
 
     }
 
-    public void test(){
-
-    }
-
-    public TempUsers(String fullname, String email, String password) {
+    public TempUsers(String fullname, String email, String password, String confirmationCode) {
         this.setFullname(fullname);
         this.setEmail(email);
         this.setPassword(password);
+        this.setConfirmationCode(confirmationCode);
         mConfirmationCode = UUID.randomUUID().toString();
-        //this.setConfirmationCode(confirmationCode);
+        this.setConfirmationCode(confirmationCode);
     }
 
     /*public String getId() {
