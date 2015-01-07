@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Autecho</string>
     <string name="action_settings">Settings</string>
     <string name="imageviewcontentdescription">Logo title</string>
@@ -41,8 +42,9 @@
     <string name="autecho_title">Autecho</string>
     <string name="app_id">334217063344631</string>
 
-    <!--  CreateAut -->
+    <!-- CreateAut -->
     <bool name="screen_small">false</bool>
+
     <string name="Iamfeeling">I am feeling</string>
     <string name="about">about</string>
     <string name="post">Post</string>
@@ -51,4 +53,12 @@
     <string name="search_hint">Search for people or interests</string>
     <string name="search_label">Search</string>
     <string name="search_results">Search Results</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+
 </resources>
