@@ -2,12 +2,6 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-0e73d445ffe06a6f5d3ddce4f7ed10a87581b2a8.jar"
-        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
-    <item
         dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/mobileservices-1.1.5-a403c9a6f6b9b712944327e6ba6d4d60b2df27e1.jar"
         jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/mobileservices-1.1.5.jar"
         jumboMode="false"
@@ -20,11 +14,17 @@
         revision="20.0.0"
         sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
     <item
-        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/support-annotations-20.0.0-f6c79eb0d6960eb5684f88ffb6d7da2b92c200a1.jar"
-        jar="/Users/Santosh/sdk/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-f45a93a5b1a12714206bba81cb47d2102a6e3802.jar"
+        jar="/Users/Santosh/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-7ebb093a98b85ecd39fdbd9588e0c4f7c90bad60.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03"/>
     <item
         dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/volley-1f225d9bf2af9877179cafa01a24b5b13edc8289.jar"
         jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/volley.jar"
@@ -32,10 +32,10 @@
         revision="20.0.0"
         sha1="43f043420aaaedb13830ed4de0f0cb12ec6f0c3b"/>
     <item
-        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/classes-d57260b120722344deaca4b5521ffdbbe6f77db3.jar"
-        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/classes-522bb679b9b507f096eb578c433e231671380800.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8"/>
 
 </pre-dex-items>
