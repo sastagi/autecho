@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.autecho.helpers.Helpers;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.autecho.model.TempUsers;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.NextServiceFilterCallback;
 import com.microsoft.windowsazure.mobileservices.ServiceFilter;
@@ -28,16 +28,15 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 
-import java.net.MalformedURLException;
 import java.util.UUID;
+
+import static com.autecho.dcc.Autecho.mClient;
 
 
 public class RegisterFragment extends Fragment{
 
     private Helpers helpers;
     private String emailId, fullname, password, response, deviceid;
-
-    private MobileServiceClient mClient;
 
     private MobileServiceTable<TempUsers> mTempTable;
 
@@ -86,11 +85,14 @@ public class RegisterFragment extends Fragment{
                 another_confirmation();
             }
         });
+
+        //Gettable
+        mTempTable = mClient.getTable(TempUsers.class);
         //Create the database connection
-        try {
+        /*try {
             // Create the Mobile Service Client instance, using the provided
             // Mobile Service URL and key
-            mClient = new MobileServiceClient(
+            /*mClient = new MobileServiceClient(
                     "https://autecho.azure-mobile.net/",
                     "EJGwalGeNhbONhLArapTkycXhFQXww10",
                     getActivity()).withFilter(new ProgressFilter());
@@ -99,7 +101,56 @@ public class RegisterFragment extends Fragment{
             mTempTable = mClient.getTable(TempUsers.class);
         } catch (MalformedURLException e) {
             //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-        }
+        }*/
+    }
+
+    private void login(){
+        /*final Button button = (Button) getActivity().findViewById(R.id.sign_in);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                String email = ((EditText)findViewById(R.id.email_address)).getText().toString();
+                String password = ((EditText)findViewById(R.id.password)).getText().toString();
+                //API call to verify username password, show progress dialog while fetching data
+                if(email.equals("m")&&(password.equals("m"))){
+                    //fetch account id and apikey
+                    apikey = "f0e2d9cf-2716-11e4-9c87-0d5ff578cceb";
+                    accountId = "11180";
+                    //store accountid and apikey in sharedpreferences
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.accountid), accountId);
+                    editor.putString(getString(R.string.apikey), apikey);
+                    editor.commit();
+                    Toast.makeText(getBaseContext(), "Shared preferences saved", Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.progressBar).setVisibility(View.GONE);
+                    //create intent to start main activity and pass accountid and apikey through the intent
+                    Intent mainIntent = new Intent(Neo.this,MainActivity.class);
+                    mainIntent.putExtra("accountId", accountId);
+                    mainIntent.putExtra("apikey", apikey);
+                    Neo.this.startActivity(mainIntent);
+                    Neo.this.finish();
+                }else{
+                    //dialog for invalid password
+
+                    Log.d("DEBUG","Invlaid username/password");
+                    new AlertDialog.Builder(Neo.this)
+                            .setTitle("Invalid credentialis")
+                            .setMessage("You have entered incorrect username and password.")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .show();
+                }
+            }
+        });*/
     }
 
     private void createAndShowDialog(Exception exception, String title) {
@@ -247,7 +298,7 @@ public class RegisterFragment extends Fragment{
     }
 
     public void register_Again(){
-           String t="";
+           //String t="";
     }
 
     public void another_confirmation(){

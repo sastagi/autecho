@@ -1,4 +1,4 @@
-package com.autecho.dcc;
+package com.autecho.model;
 
 import java.util.UUID;
 

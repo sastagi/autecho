@@ -11,8 +11,10 @@
 
     <!-- Login Page -->
     <string name="register">Sign Up</string>
+    <string name="username">username</string>
     <string name="alreadyhaveaccount">Already have an account with us:</string>
     <string name="or">or</string>
+    <string name="invalidcredentials">Invalid username or password</string>
 
     <!-- Profile Page -->
     <string name="myprofile">My Profile</string>
