@@ -1,6 +1,8 @@
 package com.autecho.dcc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -29,8 +31,6 @@ public class Autecho extends FragmentActivity {
     private static final int FRAGMENT_COUNT = 2;
     private final int SPLASH_DISPLAY_LENGTH = 3000;
 
-    //final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
     public static MobileServiceClient mClient;
@@ -51,7 +51,6 @@ public class Autecho extends FragmentActivity {
         }
         transaction.commit();
         transaction.show(fragments[LANDING]);
-        //Create database connection
         //Create the database connection
         try {
             // Create the Mobile Service Client instance, using the provided
@@ -66,12 +65,15 @@ public class Autecho extends FragmentActivity {
         } catch (MalformedURLException e) {
             //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
         }
-        /*if(sharedPref.getString(getString(R.string.username),null)!=null){
+
+        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+
+        if(sharedPref.getString(getString(R.string.username),null)!=null){
             Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
             mainIntent.putExtra(getString(R.string.username), ((EditText)findViewById(R.id.login_email_address)).getText().toString());
             Autecho.this.startActivity(mainIntent);
             Autecho.this.finish();
-        }*/
+        }
         ((EditText) findViewById(R.id.login_password)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -91,9 +93,9 @@ public class Autecho extends FragmentActivity {
                                     (findViewById(R.id.progress_indicator)).setVisibility(View.GONE);
                                     if(password.equals(item.getPassword())){
                                         //put identifier in shared preferences
-                                        //SharedPreferences.Editor editor = sharedPref.edit();
-                                        //editor.putString(getString(R.string.username), username);
-                                        //editor.commit();
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.putString(getString(R.string.username), username);
+                                        editor.commit();
                                         Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
                                         //mainIntent.putExtra("accountId", accountId);
                                         //mainIntent.putExtra("apikey", apikey);
@@ -118,7 +120,7 @@ public class Autecho extends FragmentActivity {
         });
         //Check if user is logged in
         //Hide the splash screen and show login page if not logged else listview
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 //If user is logged in, show activity feed
@@ -129,7 +131,7 @@ public class Autecho extends FragmentActivity {
                 Autecho.this.finish();*/
                 //else show login screen
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                for(Fragment f:fragments) {
+                for (Fragment f : fragments) {
                     transaction.show(f);
                 }
                 transaction.commit();
