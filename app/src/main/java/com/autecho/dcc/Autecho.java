@@ -73,6 +73,28 @@ public class Autecho extends FragmentActivity {
             mainIntent.putExtra(getString(R.string.username), ((EditText)findViewById(R.id.login_email_address)).getText().toString());
             Autecho.this.startActivity(mainIntent);
             Autecho.this.finish();
+        }else{
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //If user is logged in, show activity feed
+                /*Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
+                //mainIntent.putExtra("accountId", accountId);
+                //mainIntent.putExtra("apikey", apikey);
+                Autecho.this.startActivity(mainIntent);
+                Autecho.this.finish();*/
+                    //else show login screen
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    for (Fragment f : fragments) {
+                        transaction.show(f);
+                    }
+                    transaction.commit();
+                    transaction.show(fragments[REGISTERATION]);
+                    Log.d("show reg", "showreg");
+                    //Show activity feed
+
+                }
+            }, SPLASH_DISPLAY_LENGTH);
         }
         ((EditText) findViewById(R.id.login_password)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -118,29 +140,5 @@ public class Autecho extends FragmentActivity {
                 return false;
             }
         });
-        //Check if user is logged in
-        //Hide the splash screen and show login page if not logged else listview
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //If user is logged in, show activity feed
-                /*Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
-                //mainIntent.putExtra("accountId", accountId);
-                //mainIntent.putExtra("apikey", apikey);
-                Autecho.this.startActivity(mainIntent);
-                Autecho.this.finish();*/
-                //else show login screen
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                for (Fragment f : fragments) {
-                    transaction.show(f);
-                }
-                transaction.commit();
-                transaction.show(fragments[REGISTERATION]);
-                Log.d("show reg", "showreg");
-                //Show activity feed
-
-            }
-        }, SPLASH_DISPLAY_LENGTH);
-
     }
 }
