@@ -77,13 +77,6 @@ public class Autecho extends FragmentActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //If user is logged in, show activity feed
-                /*Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
-                //mainIntent.putExtra("accountId", accountId);
-                //mainIntent.putExtra("apikey", apikey);
-                Autecho.this.startActivity(mainIntent);
-                Autecho.this.finish();*/
-                    //else show login screen
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     for (Fragment f : fragments) {
                         transaction.show(f);

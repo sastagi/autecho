@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, FeedFragment.OnFragmentInteractionListener, PicturesFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, FeedFragment.OnFragmentInteractionListener, PicturesFragment.OnFragmentInteractionListener, MakeEntry.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
