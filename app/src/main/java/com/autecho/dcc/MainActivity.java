@@ -51,7 +51,7 @@ public class MainActivity extends Activity
                         .commit();
                 break;
             case 1:
-                mTitle = getString(R.string.pictures);
+                mTitle = getString(R.string.gallery);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new PicturesFragment())
                         .commit();
@@ -65,15 +65,15 @@ public class MainActivity extends Activity
                 mTitle = getString(R.string.feed);
                 break;
             case 2:
-                mTitle = getString(R.string.pictures);
+                mTitle = getString(R.string.gallery);
                 break;
-            case 3:
+            /*case 3:
                 mTitle = getString(R.string.video);
-                break;
-            case 4:
+                break;*/
+            case 3:
                 mTitle = getString(R.string.map);
                 break;
-            case 5:
+            case 4:
                 mTitle = getString(R.string.dashboard);
                 break;
         }

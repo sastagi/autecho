@@ -103,8 +103,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 new String[]{
                         getString(R.string.feed),
-                        getString(R.string.pictures),
-                        getString(R.string.video),
+                        getString(R.string.gallery),
                         getString(R.string.map),
                         getString(R.string.dashboard)
                 }));
