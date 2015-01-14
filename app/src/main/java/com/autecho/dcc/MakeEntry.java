@@ -91,6 +91,9 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
             main.removeViewAt(0);
         }
         main.addView(new Mood(getActivity(), 170,50), 0);
+        mSeekBar = (SeekBar)view.findViewById(R.id.seek);
+        mSeekBar.setProgress(50);
+        mSeekBar.setOnSeekBarChangeListener(this);
         return view;
     }
 

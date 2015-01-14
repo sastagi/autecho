@@ -18,7 +18,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbf3fdba-28cc-4df0-b55d-4e2c17a71583" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_make_entry.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_make_entry.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MakeEntry.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MakeEntry.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Autecho.iws" />
@@ -56,13 +56,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fragment_make_entry.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fragment_make_entry.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_make_entry.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23030303" vertical-offset="59" max-vertical-offset="1350">
+            <state vertical-scroll-proportion="-2.8148148" vertical-offset="59" max-vertical-offset="1350">
               <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
               <folding />
             </state>
@@ -81,15 +81,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MakeEntry.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MakeEntry.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MakeEntry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="1920">
-              <caret line="63" column="69" selection-start-line="63" selection-start-column="69" selection-end-line="63" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.46218488" vertical-offset="900" max-vertical-offset="1965">
+              <caret line="85" column="29" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
               <folding>
                 <element signature="e#2587#2588#0" expanded="true" />
                 <element signature="e#2637#2638#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CreateAut.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../old/src/com/autecho/dcc/CreateAut.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="571" max-vertical-offset="3975">
+              <caret line="81" column="51" selection-start-line="79" selection-start-column="8" selection-end-line="81" selection-end-column="51" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -107,7 +117,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1965">
+            <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1860">
               <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
               <folding />
             </state>
@@ -1261,8 +1271,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/NavigationDrawerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/autecho/helpers/Mood.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MakeEntry.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_make_entry.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MakeEntry.java" />
       </list>
     </option>
   </component>
@@ -1939,7 +1949,11 @@
       <created>1421220766563</created>
       <updated>1421220766563</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Removed topbar">
+      <created>1421220871226</created>
+      <updated>1421220871226</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2061,7 +2075,8 @@
     <MESSAGE value="Merged pictures and video to gallery" />
     <MESSAGE value="MakeEntry page created." />
     <MESSAGE value="Created mood page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created mood page" />
+    <MESSAGE value="Removed topbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed topbar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2471,14 +2486,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1965">
-          <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/NavigationDrawerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2706" max-vertical-offset="3975">
@@ -2497,33 +2504,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_make_entry.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8148148" vertical-offset="59" max-vertical-offset="1350">
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1965">
+          <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../old/src/com/autecho/dcc/CreateAut.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3451" max-vertical-offset="3975">
-          <caret line="288" column="29" selection-start-line="283" selection-start-column="4" selection-end-line="288" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="571" max-vertical-offset="3975">
+          <caret line="81" column="51" selection-start-line="79" selection-start-column="8" selection-end-line="81" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/autecho/dcc/MakeEntry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="1920">
-          <caret line="63" column="69" selection-start-line="63" selection-start-column="69" selection-end-line="63" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.46218488" vertical-offset="900" max-vertical-offset="1965">
+          <caret line="85" column="29" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
           <folding>
             <element signature="e#2587#2588#0" expanded="true" />
             <element signature="e#2637#2638#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_make_entry.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23030303" vertical-offset="59" max-vertical-offset="1350">
-          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
