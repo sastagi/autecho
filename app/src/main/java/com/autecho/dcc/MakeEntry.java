@@ -1,12 +1,20 @@
 package com.autecho.dcc;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.SeekBar;
+
+import com.autecho.helpers.Mood;
 
 
 /**
@@ -17,18 +25,33 @@ import android.view.ViewGroup;
  * Use the {@link MakeEntry#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MakeEntry extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListener {
+    public static boolean smallsizeflag;
+    public static String profilename_value="";
+    public static String profilename_id="";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FrameLayout main;
+    //private AutechoModel autechoModel;
+    private SeekBar mSeekBar;
+    private View face, lips;
+    private ProgressDialog progressDialog;
+    private String userid,profileid;
+    private String location="no";
+    LocationManager locationManager;
+    private Location currentloc;
+    LocationListener listener;
+    private Float latitude, longitude;
 
     private OnFragmentInteractionListener mListener;
 
+    //SeekBar functions
+    public void onProgressChanged(SeekBar seekbar, int progress, boolean fromTouch) {
+        face = main.getChildAt(0);
+        lips = main.getChildAt(1);
+        main.removeView(face);
+        main.removeView(lips);
+        main.addView(new Mood(getActivity(), 220,progress), 0);
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -40,12 +63,14 @@ public class MakeEntry extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static MakeEntry newInstance(String param1, String param2) {
         MakeEntry fragment = new MakeEntry();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
+    public void onStartTrackingTouch(SeekBar arg0) {
+        // TODO Auto-generated method stub
+    }
+    public void onStopTrackingTouch(SeekBar arg0) {
+        // TODO Auto-generated method stub
+    }//Seekbar functions over
 
     public MakeEntry() {
         // Required empty public constructor
@@ -54,17 +79,19 @@ public class MakeEntry extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_make_entry, container, false);
+        View view = inflater.inflate(R.layout.fragment_make_entry, container, false);
+        main = ((FrameLayout) view.findViewById(R.id.main_view));
+        if (main.getChildAt(0) != null){
+            main.removeViewAt(0);
+        }
+        main.addView(new Mood(getActivity(), 170,50), 0);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
