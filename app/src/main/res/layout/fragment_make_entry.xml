@@ -8,24 +8,10 @@
         android:layout_height="fill_parent"
         android:id="@+id/main">
         <RelativeLayout
-            android:id="@+id/topbar"
-            android:layout_width="fill_parent"
-            android:background="@drawable/topbar"
-            android:layout_height="50dp">
-            <TextView
-                android:id="@+id/autecho_title"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-        <RelativeLayout
             android:layout_width="fill_parent"
             android:id="@+id/postsection"
             android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/topbar">
+            android:orientation="vertical">
             <FrameLayout android:id="@+id/main_view"
                 android:layout_width="fill_parent"
                 android:layout_height="240dp"
