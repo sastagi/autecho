@@ -7,4 +7,5 @@ public class StatusList {
     String id;
     String statuses;
     String location;
+    String userid;
 }
