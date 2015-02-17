@@ -31,9 +31,10 @@
                 android:id="@+id/friendandlocation"
                 android:layout_below="@+id/seek"
                 android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
+                android:weightSum="53"
                 android:layout_height="wrap_content">
-                <Button
+                <!--<Button
                     android:id="@+id/add"
                     android:background="@drawable/addfriend"
                     android:textColor="#ffffff"
@@ -45,22 +46,46 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textSize="15sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"/>-->
                 <Button
                     android:id="@+id/location"
                     android:background="@drawable/locationoff"
                     android:textColor="#ffffff"
-                    android:layout_width="32dp"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="23"
+                    android:layout_marginTop="5dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="10dp"/>
-                <ProgressBar
+                    android:layout_marginLeft="5dp"/>
+                <EditText
+                    android:id="@+id/text"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/friendandlocation"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="10"
+                    android:layout_marginLeft="0dp"
+                    android:lines="1"
+                    android:background="@android:drawable/editbox_background"/>
+                <Button
+                    android:id="@+id/post"
+                    android:background="@drawable/appbutton"
+                    android:layout_below="@id/friendandlocation"
+                    android:textColor="#ffffff"
+                    android:layout_toRightOf="@id/text"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="20"
+                    android:layout_height="32dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Post"/>
+                <!--<ProgressBar
                     android:id="@+id/locationprogress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    style="?android:attr/android:progressBarStyleSmall" />
+                    style="?android:attr/android:progressBarStyleSmall" />-->
             </LinearLayout>
-            <EditText
+            <!--<EditText
                 android:id="@+id/text"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/friendandlocation"
@@ -78,7 +103,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_width="70dp"
                 android:layout_height="32dp"
-                android:text="Post"/>
+                android:text="Post"/>-->
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

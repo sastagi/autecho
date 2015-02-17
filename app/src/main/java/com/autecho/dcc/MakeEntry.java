@@ -1,19 +1,22 @@
 package com.autecho.dcc;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
+import com.autecho.helpers.GetCurrentLocation;
 import com.autecho.helpers.Mood;
 
 
@@ -43,6 +46,8 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
     private Float latitude, longitude;
 
     private OnFragmentInteractionListener mListener;
+
+    private GetCurrentLocation mListen;
 
     //SeekBar functions
     public void onProgressChanged(SeekBar seekbar, int progress, boolean fromTouch) {
@@ -79,6 +84,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -94,6 +100,13 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         mSeekBar = (SeekBar)view.findViewById(R.id.seek);
         mSeekBar.setProgress(50);
         mSeekBar.setOnSeekBarChangeListener(this);
+        Button mLocation = (Button)view.findViewById(R.id.location);
+        mLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLocaction();
+            }
+        });
         return view;
     }
 
@@ -102,6 +115,19 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void getLocaction(){
+        mListen = new GetCurrentLocation(getActivity());
+
+        mListen.startGettingLocation(new GetCurrentLocation.getLocation() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("LOCATION IS:", String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()));
+                mListen.stopGettingLocation();
+            }
+
+        });
     }
 
     @Override

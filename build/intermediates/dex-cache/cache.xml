@@ -2,11 +2,23 @@
 <pre-dex-items>
 
     <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/classes-13127bb372f3b94737febdbd0ab7f39b07c76683.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256"/>
+    <item
         dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/mobileservices-1.1.5-a403c9a6f6b9b712944327e6ba6d4d60b2df27e1.jar"
         jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/mobileservices-1.1.5.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="12188408c45b88124cb38dd2bedc9b314b5f554b"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/volley-1f225d9bf2af9877179cafa01a24b5b13edc8289.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/volley.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="43f043420aaaedb13830ed4de0f0cb12ec6f0c3b"/>
     <item
         dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/gson-2.2.4-47f92ff4f79b37a6a8c34420d4b9447a7de57c3e.jar"
         jar="/Users/Santosh/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
@@ -25,12 +37,6 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03"/>
-    <item
-        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/volley-1f225d9bf2af9877179cafa01a24b5b13edc8289.jar"
-        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/volley.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="43f043420aaaedb13830ed4de0f0cb12ec6f0c3b"/>
     <item
         dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/classes-522bb679b9b507f096eb578c433e231671380800.jar"
         jar="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
