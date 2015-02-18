@@ -55,7 +55,7 @@
                     android:layout_weight="23"
                     android:layout_marginTop="5dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="10dp"/>
                 <EditText
                     android:id="@+id/text"
                     android:layout_height="wrap_content"
@@ -85,6 +85,55 @@
                     android:visibility="gone"
                     style="?android:attr/android:progressBarStyleSmall" />-->
             </LinearLayout>
+            <Button
+                android:id="@+id/addImage"
+                android:background="@drawable/appbutton"
+                android:layout_below="@id/friendandlocation"
+                android:textColor="#ffffff"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Add Photo"/>
+
+            <LinearLayout
+                android:id="@+id/imageLayout"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/friendandlocation">
+                <ImageView
+                    android:id="@+id/photo_image"
+                    android:layout_below="@id/friendandlocation"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:contentDescription="will vary; image taken from camera"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_launcher" />
+                <Button
+                    android:id="@+id/removeImage"
+                    android:background="@drawable/appbutton"
+                    android:layout_below="@id/friendandlocation"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Remove Photo"/>
+                <Button
+                    android:id="@+id/changeImage"
+                    android:background="@drawable/appbutton"
+                    android:layout_below="@id/friendandlocation"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Change Photo"/>
+                </LinearLayout>
+
             <!--<EditText
                 android:id="@+id/text"
                 android:layout_height="wrap_content"
