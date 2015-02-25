@@ -91,7 +91,6 @@
                 android:layout_below="@id/friendandlocation"
                 android:textColor="#ffffff"
                 android:layout_marginTop="20dp"
-                android:visibility="gone"
                 android:layout_marginLeft="10dp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
@@ -99,7 +98,7 @@
 
             <LinearLayout
                 android:id="@+id/imageLayout"
-
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/friendandlocation">

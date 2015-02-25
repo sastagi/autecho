@@ -1,35 +1,56 @@
 package com.autecho.dcc;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.autecho.helpers.GetCurrentLocation;
 import com.autecho.helpers.Mood;
+import com.autecho.helpers.StorageApplication;
+import com.autecho.helpers.StorageService;
+import com.google.gson.JsonObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -61,15 +82,29 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
 
     private GetCurrentLocation mListen;
 
-    private ImageView photoImage = null;
+    private ImageView mImageView = null;
+    private Uri mImageCaptureUri = null;
+    private Uri fileUri = null;
     private View imageLayout;
     private Button imageButton;
-
     private static final String TAG = "CallCamera";
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQ = 0;
-    final int REQUEST_TAKE_PHOTO = 1;
 
-    private Uri fileUri = null;
+    private static final int PICK_FROM_CAMERA = 1;
+    private static final int CROP_FROM_CAMERA = 2;
+    private static final int PICK_FROM_FILE = 3;
+
+    //Storage variable
+    private Context mContext;
+    private StorageService mStorageService;
+    private ActionMode mActionMode;
+    private int mSelectedBlobPosition;
+    private String mContainerName;
+    private Button btnPositiveDialog;
+    private EditText mTxtBlobName;
+    private ImageView mImgBlobImage;
+    private Uri mImageUri;
+    private AlertDialog mAlertDialog;
+    private Uri currImageURI;
 
     //SeekBar functions
     public void onProgressChanged(SeekBar seekbar, int progress, boolean fromTouch) {
@@ -122,6 +157,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         mSeekBar = (SeekBar)view.findViewById(R.id.seek);
         mSeekBar.setProgress(50);
         mSeekBar.setOnSeekBarChangeListener(this);
+
         Button mLocation = (Button)view.findViewById(R.id.location);
         mLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,22 +165,142 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                 getLocaction();
             }
         });
-        photoImage = (ImageView) view.findViewById(R.id.photo_image);
+
+        final String [] items			= new String [] {"Take from camera", "Select from gallery"};
+        ArrayAdapter<String> adapter	= new ArrayAdapter<String> (getActivity(), android.R.layout.select_dialog_item,items);
+        AlertDialog.Builder builder		= new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("Select Image");
+        builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
+            public void onClick( DialogInterface dialog, int item ) { //pick from camera
+                if (item == 0) {
+                    Intent intent 	 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+                            "tmp_avatar_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+
+                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+
+                    try {
+                        intent.putExtra("return-data", true);
+
+                        startActivityForResult(intent, PICK_FROM_CAMERA);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } else { //pick from file
+                    Intent intent = new Intent();
+
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                    startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_FILE);
+                }
+            }
+        } );
+
+        final AlertDialog dialog = builder.create();
+
+        mImageView = (ImageView) view.findViewById(R.id.photo_image);
 
         imageLayout = view.findViewById(R.id.imageLayout);
 
         imageButton = (Button) view.findViewById(R.id.addImage);
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //dispatchTakePictureIntent();
-                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //File file = getOutputPhotoFile();
-                fileUri = Uri.fromFile(getOutputPhotoFile());
-                i.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                startActivityForResult(i, CAPTURE_IMAGE_ACTIVITY_REQ );
+                dialog.show();
             }
         });
+
+        //Blob stuff
+        StorageApplication myApp = (StorageApplication) getActivity().getApplication();
+        mStorageService = myApp.getStorageService();
+        //Get the blobs for the selected container
+        mStorageService.getBlobsForContainer("one");
         return view;
+    }
+
+    /***
+     * Register for broadcasts
+     */
+    @Override
+    public void onResume() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("blobs.loaded");
+        filter.addAction("blob.created");
+        getActivity().registerReceiver(receiver, filter);
+        super.onResume();
+    }
+
+    /***
+     * Unregister for broadcasts
+     */
+    @Override
+    public void onPause() {
+        getActivity().unregisterReceiver(receiver);
+        super.onPause();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+
+        switch (requestCode) {
+            case PICK_FROM_CAMERA:
+                doCrop();
+
+                break;
+
+            case PICK_FROM_FILE:
+                mImageCaptureUri = data.getData();
+                doCrop();
+                break;
+
+            case CROP_FROM_CAMERA:
+                File imageFile = new File(fileUri.getPath());
+                currImageURI = getImageContentUri(getActivity().getApplicationContext(), imageFile);
+                if (imageFile.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                    mImageView.setImageBitmap(myBitmap);
+                    imageLayout.setVisibility(View.VISIBLE);
+                    imageButton.setVisibility(View.GONE);
+                    //sendImageToBlob();
+                    mStorageService.getSasForNewBlob("one", "autecho");
+                }
+                break;
+        }
+    }
+
+    private void doCrop() {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setType("image/*");
+
+        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities( intent, 0 );
+
+        int size = list.size();
+
+        if (size == 0) {
+            //Toast.makeText(this, "Can not find image crop app", Toast.LENGTH_SHORT).show();
+
+            return;
+        } else {
+            fileUri = Uri.fromFile(getOutputPhotoFile());
+            intent.setData(mImageCaptureUri);
+            intent.putExtra("outputX", 360);
+            intent.putExtra("outputY", 360);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            intent.putExtra("output", fileUri);
+            intent.putExtra("return-data", false);
+            Intent i = new Intent(intent);
+            ResolveInfo res	= list.get(0);
+
+            i.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+
+            startActivityForResult(i, CROP_FROM_CAMERA);
+        }
     }
 
     private File getOutputPhotoFile() {
@@ -161,88 +317,98 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                 + timeStamp + ".png");
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQ) {
-            if (resultCode == Activity.RESULT_OK) {
-                Uri photoUri = null;
-                if (data == null) {
-                    // A known bug here! The image should have saved in fileUri
-                    Log.d("IMAGE RESULT","SUCCESSFUL IMAGE");
-                    photoUri = fileUri;
-                } else {
-                    photoUri = data.getData();
-                    Log.d("IMAGE RESULT","SUCCESSFUL IMAGE");
-                    //Toast.makeText(this, "Image saved successfully in: " + data.getData(),Toast.LENGTH_LONG).show();
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        public void onReceive(Context context, android.content.Intent intent) {
+            String intentAction = intent.getAction();
+            if (intentAction.equals("blob.created")) {
+                //If a blob has been created, upload the image
+                JsonObject blob = mStorageService.getLoadedBlob();
+                Log.d("SAAASSSSSSUUUUUUURRRRRRLLLLLLL",blob.toString());
+                String sasUrl = blob.getAsJsonPrimitive("sasUrl").toString();
+                (new ImageUploaderTask(sasUrl)).execute();
+            }
+        }
+    };
+    class ImageUploaderTask extends AsyncTask<Void, Void, Boolean> {
+        private String mUrl;
+        public ImageUploaderTask(String url) {
+            mUrl = url;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                //Get the image data
+                Log.d("The image uri is",currImageURI.toString());
+                Cursor cursor = getActivity().getContentResolver().query(currImageURI, null,null, null, null);
+                cursor.moveToFirst();
+                int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                String absoluteFilePath = cursor.getString(index);
+                FileInputStream fis = new FileInputStream(absoluteFilePath);
+                int bytesRead = 0;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] b = new byte[1024];
+                while ((bytesRead = fis.read(b)) != -1) {
+                    bos.write(b, 0, bytesRead);
                 }
-                showPhoto(photoUri);
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.d("IMAGE RESULT","CANCELLED");
-                //Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+                byte[] bytes = bos.toByteArray();
+                // Post our image data (byte array) to the server
+                URL url = new URL(mUrl.replace("\"", ""));
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("PUT");
+                urlConnection.addRequestProperty("Content-Type", "image/jpeg");
+                urlConnection.setRequestProperty("Content-Length", ""+ bytes.length);
+                // Write image data to server
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.write(bytes);
+                wr.flush();
+                wr.close();
+                int response = urlConnection.getResponseCode();
+                //If we successfully uploaded, return true
+                if (response == 201
+                        && urlConnection.getResponseMessage().equals("Created")) {
+                    Log.d("Success",urlConnection.getURL().toString());
+                    return true;
+                }
+            } catch (Exception ex) {
+                Log.e(TAG, ex.getMessage().toString());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean uploaded) {
+            if (uploaded) {
+                //mAlertDialog.cancel();
+                //mStorageService.getBlobsForContainer(mContainerName);
+                Log.d("SUCCESSSSSSSSSSSS","Check url for image");
+            }
+        }
+    }
+
+    public static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            //int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             } else {
-                Log.d("IMAGE RESULT","Callout for image capture failed!");
-                //Toast.makeText(this, "Callout for image capture failed!",Toast.LENGTH_LONG).show();
+                return null;
             }
         }
-       /* Bundle extras = data.getExtras();
-        Bitmap imageBitmap = (Bitmap) extras.get("data");
-        photoImage.setImageBitmap(imageBitmap);*/
     }
-    private void showPhoto(Uri photoUri) {
-        File imageFile = new File(photoUri.getPath());
-        if (imageFile.exists()){
-            Bitmap bitmap;
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-            int imageHeight = options.outHeight;
-            int imageWidth = options.outWidth;
-            Log.d("Details regarding image:", "Height: "+imageHeight+"Width: "+imageWidth);
-            if(imageWidth > imageHeight) {
-                options.inSampleSize = calculateInSampleSize(options,512,256);//if landscape
-            } else{
-                options.inSampleSize = calculateInSampleSize(options,256,512);//if portrait
-            }
-            options.inJustDecodeBounds = false;
-            bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),options);
-            bitmap = RotateBitmap(bitmap, 90);
-            Log.d("Details regarding image:", "Height: "+imageHeight+"Width: "+imageWidth);
-            BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmap);
-            photoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            photoImage.setImageDrawable(drawable);
-            imageLayout.setVisibility(View.VISIBLE);
-            imageButton.setVisibility(View.GONE);
-            Log.d("IMAGEFILE CONTENT IS AT::::::",imageFile.toString());
-        }
-    }
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee
-            // a final image with both dimensions larger than or equal to the
-            // requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-
-        return inSampleSize;
-    }
-
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
-    {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-    }
-
 
     public void getLocaction(){
         mListen = new GetCurrentLocation(getActivity());

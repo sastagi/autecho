@@ -20,6 +20,12 @@
         revision="20.0.0"
         sha1="43f043420aaaedb13830ed4de0f0cb12ec6f0c3b"/>
     <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/android-support-v4-75dfbeceb722cd38b06e49c72623cd6c83c65021.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/android-support-v4.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="307c1cc532eabbf1d135b43e5c983c9da700449d"/>
+    <item
         dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/gson-2.2.4-47f92ff4f79b37a6a8c34420d4b9447a7de57c3e.jar"
         jar="/Users/Santosh/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
         jumboMode="false"
@@ -43,5 +49,11 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8"/>
+    <item
+        dex="/Users/Santosh/AndroidStudioProjects/autecho/app/build/intermediates/pre-dexed/debug/httpclient-4.2.3-661d0054f8a4cdc730d8e946380d1074c75c1bbb.jar"
+        jar="/Users/Santosh/AndroidStudioProjects/autecho/app/libs/httpclient-4.2.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="6a91a27c5c07e9da44eeddbc4206e349735b26f4"/>
 
 </pre-dex-items>
