@@ -34,4 +34,9 @@ public class UserList {
     public String getPassword() {
         return mPassword;
     }
+
+    public String getmId() {
+        return mId;
+    }
+
 }

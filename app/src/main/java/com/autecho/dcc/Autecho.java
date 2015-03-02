@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.autecho.helpers.AzureConnection;
 import com.autecho.model.UserList;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -23,6 +24,8 @@ import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
 
 import java.net.MalformedURLException;
 import java.util.List;
+
+;
 
 public class Autecho extends FragmentActivity {
 
@@ -35,12 +38,17 @@ public class Autecho extends FragmentActivity {
 
     public static MobileServiceClient mClient;
 
+    public static Context mContext;
+
     private MobileServiceTable<UserList> mUserList;
+
+    private AzureConnection azureConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autecho);
+        mContext = this;
 
         fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
         fragments[REGISTERATION] = getSupportFragmentManager().findFragmentById(R.id.RegisterFragment);
@@ -66,11 +74,11 @@ public class Autecho extends FragmentActivity {
             //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
         }
 
-        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        if(sharedPref.getString(getString(R.string.username),null)!=null){
+        if(sharedPref.getString(getString(R.string.userid),null)!=null){
             Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
-            mainIntent.putExtra(getString(R.string.username), ((EditText)findViewById(R.id.login_email_address)).getText().toString());
+            mainIntent.putExtra(getString(R.string.userid), ((EditText)findViewById(R.id.login_email_address)).getText().toString());
             Autecho.this.startActivity(mainIntent);
             Autecho.this.finish();
         }else{
@@ -102,14 +110,15 @@ public class Autecho extends FragmentActivity {
 
                         public void onCompleted(List<UserList> result, int count, Exception exception, ServiceFilterResponse response) {
                             if (exception == null) {
-                                for (UserList item : result) {
+                                for (UserList userDetail : result) {
                                     //Check if passwords are equal
                                     //if equal show feed
                                     (findViewById(R.id.progress_indicator)).setVisibility(View.GONE);
-                                    if(password.equals(item.getPassword())){
+                                    if(password.equals(userDetail.getPassword())){
                                         //put identifier in shared preferences
+                                        Log.d("THE USERID IS:", userDetail.getmId());
                                         SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.putString(getString(R.string.username), username);
+                                        editor.putString(getString(R.string.userid), userDetail.getmId());
                                         editor.commit();
                                         Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
                                         //mainIntent.putExtra("accountId", accountId);
@@ -120,9 +129,8 @@ public class Autecho extends FragmentActivity {
                                     else{
                                         (findViewById(R.id.invalidcredentials)).setVisibility(View.VISIBLE);
                                     }
-                                    Log.d("THE PASSWORD IS:", item.getPassword());
+                                    Log.d("THE PASSWORD IS:", userDetail.getPassword());
                                 }
-
                             } else {
                                 //createAndShowDialog(exception, "Error");
                                 Log.e("ERROR", "Error getting mobile service");

@@ -3,7 +3,6 @@ package com.autecho.dcc;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -12,20 +11,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +37,11 @@ import com.autecho.helpers.GetCurrentLocation;
 import com.autecho.helpers.Mood;
 import com.autecho.helpers.StorageApplication;
 import com.autecho.helpers.StorageService;
+import com.autecho.model.StatusList;
 import com.google.gson.JsonObject;
+import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -52,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.autecho.dcc.Autecho.mClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,26 +65,21 @@ import java.util.List;
  */
 public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListener {
     public static boolean smallsizeflag;
-    public static String profilename_value="";
-    public static String profilename_id="";
 
     private FrameLayout main;
     //private AutechoModel autechoModel;
     private SeekBar mSeekBar;
     private View face, lips;
-    private ProgressDialog progressDialog;
-    private String userid,profileid;
-    private String location="no";
-    LocationManager locationManager;
-    private Location currentloc;
-    LocationListener listener;
-    private Float latitude, longitude;
+    private String userLocation = "no";
+    private String blobUrl = "no";
+    private boolean photoExists;
 
     private OnFragmentInteractionListener mListener;
 
     private GetCurrentLocation mListen;
 
     private ImageView mImageView = null;
+    private EditText statusField;
     private Uri mImageCaptureUri = null;
     private Uri fileUri = null;
     private View imageLayout;
@@ -94,17 +91,10 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
     private static final int PICK_FROM_FILE = 3;
 
     //Storage variable
-    private Context mContext;
     private StorageService mStorageService;
-    private ActionMode mActionMode;
-    private int mSelectedBlobPosition;
-    private String mContainerName;
-    private Button btnPositiveDialog;
-    private EditText mTxtBlobName;
-    private ImageView mImgBlobImage;
-    private Uri mImageUri;
-    private AlertDialog mAlertDialog;
     private Uri currImageURI;
+
+    private MobileServiceTable<StatusList> mStatusList;
 
     //SeekBar functions
     public void onProgressChanged(SeekBar seekbar, int progress, boolean fromTouch) {
@@ -157,8 +147,9 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         mSeekBar = (SeekBar)view.findViewById(R.id.seek);
         mSeekBar.setProgress(50);
         mSeekBar.setOnSeekBarChangeListener(this);
+        statusField = (EditText)view.findViewById(R.id.text);
 
-        Button mLocation = (Button)view.findViewById(R.id.location);
+        final Button mLocation = (Button)view.findViewById(R.id.location);
         mLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,8 +206,38 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         //Blob stuff
         StorageApplication myApp = (StorageApplication) getActivity().getApplication();
         mStorageService = myApp.getStorageService();
-        //Get the blobs for the selected container
-        mStorageService.getBlobsForContainer("one");
+        //Upload data to azure
+        final Button mPost = (Button)view.findViewById(R.id.post);
+        mPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(photoExists){
+                    //getBlobCount for container;
+                    mStorageService.getBlobsForContainer("moodesto",mSeekBar.getProgress()+"-"+statusField.getText().toString());
+                    //sendImageToBlob()
+                    // mStorageService.getSasForNewBlob("moodesto");
+                }else{
+                    String status = statusField.getText().toString();//get status message of the user
+                    //get user id
+                    Context mContext = Autecho.mContext;
+                    SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    String userId = sharedPref.getString(getString(R.string.userid),null);
+                    Log.d("AZURE GETS THE FOLLOWING",userId+" XXX "+status+" XXX "+mSeekBar.getProgress()+" XXX "+userLocation+" XXX "+blobUrl);
+                    StatusList statusList = new StatusList(userId, status, mSeekBar.getProgress(), userLocation, blobUrl);
+                    // Get the Mobile Service Table instance to use
+                    mStatusList = mClient.getTable(StatusList.class);
+                    mStatusList.insert(statusList, new TableOperationCallback<StatusList>() {
+                        @Override
+                        public void onCompleted(StatusList statusList, Exception e, ServiceFilterResponse serviceFilterResponse) {
+                            Log.d("INSERTEST", "SUCCESS");
+                        }
+                    });
+                }
+
+
+                //Upload data to azure
+            }
+        });
         return view;
     }
 
@@ -264,8 +285,11 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                     mImageView.setImageBitmap(myBitmap);
                     imageLayout.setVisibility(View.VISIBLE);
                     imageButton.setVisibility(View.GONE);
+                    photoExists=true;
+                    //getBlobCount for container;
+                    //mStorageService.getBlobsForContainer("moodesto");
                     //sendImageToBlob();
-                    mStorageService.getSasForNewBlob("one", "autecho");
+                    //mStorageService.getSasForNewBlob("moodesto");
                 }
                 break;
         }
@@ -320,6 +344,13 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, android.content.Intent intent) {
             String intentAction = intent.getAction();
+            /*if (intentAction.equals("blob.loaded")) {
+                String count = intent.getStringExtra("blob.count");
+                String blobName = Integer.parseInt(count)+1+"-"+statusField.getText().toString()+"-"+mSeekBar.getProgress();
+                Log.d("NEW NAME FOR BLOB IS:",blobName);
+                //sendImageToBlob();
+                mStorageService.getSasForNewBlob("moodesto", blobName);
+            }*/
             if (intentAction.equals("blob.created")) {
                 //If a blob has been created, upload the image
                 JsonObject blob = mStorageService.getLoadedBlob();
@@ -369,6 +400,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                 if (response == 201
                         && urlConnection.getResponseMessage().equals("Created")) {
                     Log.d("Success",urlConnection.getURL().toString());
+                    blobUrl = urlConnection.getURL().toString();
                     return true;
                 }
             } catch (Exception ex) {
@@ -380,11 +412,31 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         @Override
         protected void onPostExecute(Boolean uploaded) {
             if (uploaded) {
+
                 //mAlertDialog.cancel();
                 //mStorageService.getBlobsForContainer(mContainerName);
                 Log.d("SUCCESSSSSSSSSSSS","Check url for image");
+                sendMoodDataToAzure();
             }
         }
+    }
+
+    public void sendMoodDataToAzure(){
+        String status = statusField.getText().toString();//get status message of the user
+        //get user id
+        Context mContext = Autecho.mContext;
+        SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String userId = sharedPref.getString(getString(R.string.userid),null);
+        Log.d("AZURE GETS THE FOLLOWING",userId+" XXX "+status+" XXX "+mSeekBar.getProgress()+" XXX "+userLocation+" XXX "+blobUrl);
+        StatusList statusList = new StatusList(userId, status, mSeekBar.getProgress(), userLocation, blobUrl);
+        // Get the Mobile Service Table instance to use
+        mStatusList = mClient.getTable(StatusList.class);
+        mStatusList.insert(statusList, new TableOperationCallback<StatusList>() {
+            @Override
+            public void onCompleted(StatusList statusList, Exception e, ServiceFilterResponse serviceFilterResponse) {
+                Log.d("INSERTEST", "SUCCESS");
+            }
+        });
     }
 
     public static Uri getImageContentUri(Context context, File imageFile) {
@@ -417,6 +469,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onLocationChanged(Location location) {
                 Log.d("LOCATION IS:", String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()));
+                userLocation = String.valueOf(location.getLatitude())+","+String.valueOf(location.getLongitude());
                 mListen.stopGettingLocation();
             }
 

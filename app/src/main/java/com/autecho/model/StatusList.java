@@ -4,40 +4,73 @@ package com.autecho.model;
  * Created by Santosh on 1/14/15.
  */
 public class StatusList {
-    public String getId() {
-        return id;
+
+    @com.google.gson.annotations.SerializedName("status")
+    private String mStatus;
+
+    @com.google.gson.annotations.SerializedName("location")
+    private String mLocation;
+
+    @com.google.gson.annotations.SerializedName("bloburl")
+    private String mBloburl;
+
+    @com.google.gson.annotations.SerializedName("userid")
+    private String mUserid;
+
+    @com.google.gson.annotations.SerializedName("mood")
+    private int mMood;
+
+    @com.google.gson.annotations.SerializedName("id")
+    private String mId;
+
+    public StatusList() {
+
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public StatusList(String userId, String status, int mood, String location, String bloburl) {
+        this.setUserid(userId);
+        this.setStatus(status);
+        this.setMood(mood);
+        this.setLocation(location);
+        this.setBloburl(bloburl);
     }
 
-    public String getStatuses() {
-        return statuses;
+    public String getStatus() {
+        return mStatus;
     }
 
-    public void setStatuses(String statuses) {
-        this.statuses = statuses;
+    public void setStatus(String status) {
+        this.mStatus = status;
     }
 
     public String getLocation() {
-        return location;
+        return mLocation;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.mLocation = location;
     }
 
     public String getUserid() {
-        return userid;
+        return mUserid;
     }
 
     public void setUserid(String userid) {
-        this.userid = userid;
+        this.mUserid = userid;
     }
 
-    private String id;
-    private String statuses;
-    private String location;
-    private String userid;
+    public void setBloburl(String mBloburl) {
+        this.mBloburl = mBloburl;
+    }
+    public String getBloburl() {
+        return mBloburl;
+    }
+
+    public int getMood() {
+        return mMood;
+    }
+
+    public void setMood(int mMood) {
+        this.mMood = mMood;
+    }
 }

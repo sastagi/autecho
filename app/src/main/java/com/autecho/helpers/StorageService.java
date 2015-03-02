@@ -25,6 +25,7 @@ import java.util.Map;
  * Created by Santosh on 2/21/15.
  */
 public class StorageService {
+
     private MobileServiceClient mClient;
     private MobileServiceJsonTable mTableTables;
     private MobileServiceJsonTable mTableTableRows;
@@ -366,8 +367,10 @@ public class StorageService {
      * Get all of the blobs for a container
      * @param containerName
      */
-    public void getBlobsForContainer(String containerName) {
-        Log.d("CONTANER BLOBBBBBS:","Getting blobs for container");
+    public void getBlobsForContainer(String containerName, String blobParam) {
+        Log.d("CONTANER BLOBBBBBS COUNT:","Getting blobs for container");
+        final String existingContainer = containerName;
+        final String blobName = blobParam;
         //Pass the container name as a parameter
         //We have to do it in this way for it to show up properly on the server
         mTableBlobs.execute(mTableBlobs.parameter("container", containerName), new TableJsonQueryCallback() {
@@ -382,7 +385,7 @@ public class StorageService {
                 //Store a local array of both the JsonElements and the blob names
                 mBlobNames = new ArrayList<Map<String, String>>();
                 mBlobObjects = new ArrayList<JsonElement>();
-                Log.d("CONTANER JSONNNNNNNNNNNNNNN:",results.toString());
+                Log.d("CONTANER COUNT IS:",results.size()+"");
                 for (int i = 0; i < results.size(); i ++) {
                     JsonElement item = results.get(i);
                     mBlobObjects.add(item);
@@ -390,13 +393,19 @@ public class StorageService {
                     map.put("BlobName", item.getAsJsonObject().getAsJsonPrimitive("name").getAsString());
                     mBlobNames.add(map);
                 }
+                if(blobName!=null){
+                    String updatedBlobName = blobName+"-"+results.size()+"";
+                    getSasForNewBlob(existingContainer,updatedBlobName);
+                }
+
                 //Broadcast that blobs are loaded
                 /*Map<String, String> map = new HashMap<String, String>();
                 map.put("ContainerName", "dsgdsdgd");
                 map.put("ContainerName", "faltu");
                 mContainers.add(map);*/
                 Intent broadcast = new Intent();
-                broadcast.setAction("blobs.loaded");
+                broadcast.putExtra("blob.count",results.size());
+                broadcast.setAction("blob.loaded");
                 mContext.sendBroadcast(broadcast);
             }
         });
@@ -425,7 +434,7 @@ public class StorageService {
                     return;
                 }
                 //Refetch the blobs from the server
-                getBlobsForContainer(containerName);
+                getBlobsForContainer(containerName, null);
             }
         });
     }
@@ -467,14 +476,15 @@ public class StorageService {
 
     /***
      * Gets a SAS URL for a new blob so we can upload it to the server
-     * @param containerName
-     * @param blobName
+     * //@param containerName
+     * //@param blobName
      * NOTE THIS IS DONE AS A SEPARATE METHOD FROM getSasForNewBlob BECAUSE IT
      * BROADCASTS A DIFFERENT ACTION
      */
     public void getSasForNewBlob(String containerName, String blobName) {
         //Create the json Object we'll send over and fill it with the required
         //id property - otherwise we'll get kicked back
+        Log.d("BLOB NAME IS",blobName);
         JsonObject blob = new JsonObject();
         blob.addProperty("id", 0);
         //Create parameters to pass in the blob details.  We do this with params

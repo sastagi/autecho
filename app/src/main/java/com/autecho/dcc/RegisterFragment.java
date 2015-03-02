@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.autecho.helpers.AzureConnection;
 import com.autecho.helpers.Helpers;
 import com.autecho.model.TempUsers;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -32,7 +33,6 @@ import java.util.UUID;
 
 import static com.autecho.dcc.Autecho.mClient;
 
-
 public class RegisterFragment extends Fragment{
 
     private Helpers helpers;
@@ -41,6 +41,8 @@ public class RegisterFragment extends Fragment{
     private MobileServiceTable<TempUsers> mTempTable;
 
     private ProgressBar mProgressBar;
+
+    private AzureConnection azureConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,9 +87,8 @@ public class RegisterFragment extends Fragment{
                 another_confirmation();
             }
         });
-
         //Gettable
-        mTempTable = mClient.getTable(TempUsers.class);
+        mTempTable =mClient.getTable(TempUsers.class);
         //Create the database connection
         /*try {
             // Create the Mobile Service Client instance, using the provided

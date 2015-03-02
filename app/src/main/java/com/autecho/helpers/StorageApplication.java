@@ -7,9 +7,15 @@ import android.app.Application;
  */
 public class StorageApplication extends Application {
 
-    private StorageService mStorageService;
+    private static StorageService mStorageService;
 
-    public StorageApplication() {}
+    private static StorageApplication mstorageApplication;
+
+    public static StorageApplication getStorageApplication(){
+        if(mstorageApplication==null)
+            mstorageApplication = new StorageApplication();
+        return mstorageApplication;
+    }
 
     public StorageService getStorageService() {
         if (mStorageService == null) {
