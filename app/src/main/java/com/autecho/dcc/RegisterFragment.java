@@ -255,6 +255,7 @@ public class RegisterFragment extends Fragment{
         //check if temp record already exists...if temp record already exists delete it
         // Insert the new item
         //mTempTable.length(emailId);
+        Log.d("TEMP USERS WILL GET", fullname+emailId+password+confirmationCode);
         mTempTable.insert(item, new TableOperationCallback<TempUsers>() {
 
             public void onCompleted(TempUsers entity, Exception exception, ServiceFilterResponse response) {
@@ -262,8 +263,9 @@ public class RegisterFragment extends Fragment{
                 if (exception == null) {
                     //get email address and confirmation
                     // Instantiate the RequestQueue.
+
                     RequestQueue queue = Volley.newRequestQueue(getActivity());
-                    String url = "http://ixddeveloper.com/send.php?email="+emailId+"&confirmationcode="+confirmationCode+"&fullname"+fullname;
+                    String url = "http://ixddeveloper.com/send.php?email="+emailId+"&confirmationcode="+confirmationCode+"&fullname="+fullname;
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

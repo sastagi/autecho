@@ -3,6 +3,7 @@ package com.autecho.dcc;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -215,7 +216,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                     //getBlobCount for container;
                     mStorageService.getBlobsForContainer("moodesto",mSeekBar.getProgress()+"-"+statusField.getText().toString());
                     //sendImageToBlob()
-                    // mStorageService.getSasForNewBlob("moodesto");
+                    //mStorageService.getSasForNewBlob("moodesto");
                 }else{
                     String status = statusField.getText().toString();//get status message of the user
                     //get user id
@@ -232,10 +233,11 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                             Log.d("INSERTEST", "SUCCESS");
                         }
                     });
+                    FragmentManager fragmentManager = getActivity().getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, new FeedFragment())
+                            .commit();
                 }
-
-
-                //Upload data to azure
             }
         });
         return view;
@@ -437,6 +439,10 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                 Log.d("INSERTEST", "SUCCESS");
             }
         });
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, new FeedFragment())
+                .commit();
     }
 
     public static Uri getImageContentUri(Context context, File imageFile) {

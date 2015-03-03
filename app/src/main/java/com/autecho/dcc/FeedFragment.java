@@ -2,14 +2,27 @@ package com.autecho.dcc;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.autecho.adapters.StatusAdapter;
+import com.autecho.model.StatusList;
+import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
+
+import java.util.List;
+
+import static com.autecho.dcc.Autecho.mClient;
 
 /**
  * A fragment representing a list of Items.
@@ -36,13 +49,14 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    private ListView mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private StatusAdapter mAdapter;
+    private MobileServiceTable<StatusList> mStatusTable;
 
     // TODO: Rename and change types of parameters
     public static FeedFragment newInstance(String param1, String param2) {
@@ -76,14 +90,45 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item, container, false);
 
+        // Get the Mobile Service Table instance to use
+        mStatusTable = mClient.getTable(StatusList.class);
+
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView = (ListView) view.findViewById(android.R.id.list);
+
+        // Create an adapter to bind the items with the view
+        mAdapter = new StatusAdapter(getActivity(), R.layout.row_list_status);
+        mListView.setAdapter(mAdapter);
+
+        // Load the items from the Mobile Service
+        refreshStatusList();
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
         return view;
+    }
+
+    public void refreshStatusList(){
+        Context mContext = Autecho.mContext;
+        SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String userId = sharedPref.getString(getString(R.string.userid),null);
+        Log.d("Fetching statuses for userid:",userId);
+        mStatusTable.where().field("userid").eq(userId).execute(new TableQueryCallback<StatusList>() {
+
+            public void onCompleted(List<StatusList> result, int count, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+                    mAdapter.clear();
+
+                    for (StatusList item : result) {
+                        mAdapter.add(item);
+                    }
+
+                } else {
+                    Log.d("ERROR FETCHING ITEMS", "Unable to fetch items from mobile service");
+                }
+            }
+        });
     }
 
     @Override

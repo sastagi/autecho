@@ -370,7 +370,7 @@ public class StorageService {
     public void getBlobsForContainer(String containerName, String blobParam) {
         Log.d("CONTANER BLOBBBBBS COUNT:","Getting blobs for container");
         final String existingContainer = containerName;
-        final String blobName = blobParam;
+        final String blobName = blobParam.replaceAll("\\s","");
         //Pass the container name as a parameter
         //We have to do it in this way for it to show up properly on the server
         mTableBlobs.execute(mTableBlobs.parameter("container", containerName), new TableJsonQueryCallback() {
