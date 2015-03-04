@@ -8,6 +8,9 @@ public class UserList {
     @com.google.gson.annotations.SerializedName("username")
     private String mUsername;
 
+    @com.google.gson.annotations.SerializedName("fullname")
+    private String mFullname;
+
     @com.google.gson.annotations.SerializedName("password")
     private String mPassword;
 
@@ -18,9 +21,10 @@ public class UserList {
 
     }
 
-    public UserList(String username, String password) {
+    public UserList(String username, String password, String fullname) {
         this.setUsername(username);
         this.setPassword(password);
+        this.setFullname(fullname);
     }
 
     public void setUsername(String mUsername) {
@@ -31,8 +35,16 @@ public class UserList {
         this.mPassword = mPassword;
     }
 
+    public void setFullname(String mFullname) {
+        this.mFullname = mFullname;
+    }
+
     public String getPassword() {
         return mPassword;
+    }
+
+    public String getFullname() {
+        return mFullname;
     }
 
     public String getmId() {

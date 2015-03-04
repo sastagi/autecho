@@ -119,6 +119,7 @@ public class Autecho extends FragmentActivity {
                                         Log.d("THE USERID IS:", userDetail.getmId());
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         editor.putString(getString(R.string.userid), userDetail.getmId());
+                                        editor.putString(getString(R.string.fullname), userDetail.getFullname());
                                         editor.commit();
                                         Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
                                         //mainIntent.putExtra("accountId", accountId);

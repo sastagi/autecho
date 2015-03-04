@@ -34,6 +34,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.autecho.helpers.GetCurrentLocation;
 import com.autecho.helpers.Mood;
 import com.autecho.helpers.StorageApplication;
@@ -43,6 +49,10 @@ import com.google.gson.JsonObject;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -72,6 +82,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
     private SeekBar mSeekBar;
     private View face, lips;
     private String userLocation = "no";
+    private String userAddress = "no";
     private String blobUrl = "no";
     private boolean photoExists;
 
@@ -223,20 +234,21 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                     Context mContext = Autecho.mContext;
                     SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                     String userId = sharedPref.getString(getString(R.string.userid),null);
-                    Log.d("AZURE GETS THE FOLLOWING",userId+" XXX "+status+" XXX "+mSeekBar.getProgress()+" XXX "+userLocation+" XXX "+blobUrl);
-                    StatusList statusList = new StatusList(userId, status, mSeekBar.getProgress(), userLocation, blobUrl);
+                    String fullname = sharedPref.getString(getString(R.string.fullname),null);
+                    Log.d("AZURE GETS THE FOLLOWING",userId+" XXX "+ fullname +" XXX "+status+" XXX "+mSeekBar.getProgress()+" XXX "+userLocation+" XXX "+userAddress+" XXX "+blobUrl);
+                    StatusList statusList = new StatusList(userId, fullname, status, mSeekBar.getProgress(), userLocation, blobUrl, userAddress);
                     // Get the Mobile Service Table instance to use
                     mStatusList = mClient.getTable(StatusList.class);
                     mStatusList.insert(statusList, new TableOperationCallback<StatusList>() {
                         @Override
                         public void onCompleted(StatusList statusList, Exception e, ServiceFilterResponse serviceFilterResponse) {
                             Log.d("INSERTEST", "SUCCESS");
+                            FragmentManager fragmentManager = getActivity().getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.container, new FeedFragment())
+                                    .commit();
                         }
                     });
-                    FragmentManager fragmentManager = getActivity().getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, new FeedFragment())
-                            .commit();
                 }
             }
         });
@@ -429,20 +441,21 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         Context mContext = Autecho.mContext;
         SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String userId = sharedPref.getString(getString(R.string.userid),null);
-        Log.d("AZURE GETS THE FOLLOWING",userId+" XXX "+status+" XXX "+mSeekBar.getProgress()+" XXX "+userLocation+" XXX "+blobUrl);
-        StatusList statusList = new StatusList(userId, status, mSeekBar.getProgress(), userLocation, blobUrl);
+        String fullname = sharedPref.getString(getString(R.string.fullname),null);
+        Log.d("AZURE GETS THE FOLLOWING",userId+" XXX "+ fullname +" XXX "+status+" XXX "+mSeekBar.getProgress()+userLocation+" XXX "+userAddress+" XXX "+blobUrl);
+        StatusList statusList = new StatusList(userId, fullname, status, mSeekBar.getProgress(), userLocation, blobUrl, userAddress);
         // Get the Mobile Service Table instance to use
         mStatusList = mClient.getTable(StatusList.class);
         mStatusList.insert(statusList, new TableOperationCallback<StatusList>() {
             @Override
             public void onCompleted(StatusList statusList, Exception e, ServiceFilterResponse serviceFilterResponse) {
                 Log.d("INSERTEST", "SUCCESS");
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new FeedFragment())
+                        .commit();
             }
         });
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, new FeedFragment())
-                .commit();
     }
 
     public static Uri getImageContentUri(Context context, File imageFile) {
@@ -476,6 +489,42 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
             public void onLocationChanged(Location location) {
                 Log.d("LOCATION IS:", String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()));
                 userLocation = String.valueOf(location.getLatitude())+","+String.valueOf(location.getLongitude());
+
+                RequestQueue queue = Volley.newRequestQueue(Autecho.mContext);
+                String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+userLocation+"&sensor=true";
+
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    //Log.d()
+                                    JSONObject jobj = new JSONObject(response);
+                                    JSONArray jsonarray = new JSONArray();
+                                    jsonarray = jobj.getJSONArray("results");
+                                    JSONObject ja = jsonarray.getJSONObject(0);
+                                    Log.d("The json object is:",ja.toString());
+                                    JSONObject c = jsonarray.getJSONObject(0);
+
+                                    String address = c.getString("formatted_address");
+                                    String[] addressparts = address.split(", ");
+                                    String[] state = addressparts[2].split(" ");
+                                    userAddress = addressparts[1]+", " + state[0];
+                                    Log.d("The address is: ",userAddress);
+                                    //Toast.makeText(CreateAut.this, location, Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+                // Add the request to the RequestQueue.
+                queue.add(stringRequest);
                 mListen.stopGettingLocation();
             }
 

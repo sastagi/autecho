@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.autecho.adapters.StatusAdapter;
 import com.autecho.model.StatusList;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.QueryOrder;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
 
@@ -114,7 +115,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String userId = sharedPref.getString(getString(R.string.userid),null);
         Log.d("Fetching statuses for userid:",userId);
-        mStatusTable.where().field("userid").eq(userId).execute(new TableQueryCallback<StatusList>() {
+        mStatusTable.where().field("userid").eq(userId).orderBy("__createdAt", QueryOrder.Descending).execute(new TableQueryCallback<StatusList>() {
 
             public void onCompleted(List<StatusList> result, int count, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {

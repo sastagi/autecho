@@ -1,5 +1,7 @@
 package com.autecho.model;
 
+import java.util.Date;
+
 /**
  * Created by Santosh on 1/14/15.
  */
@@ -20,6 +22,15 @@ public class StatusList {
     @com.google.gson.annotations.SerializedName("mood")
     private int mMood;
 
+    @com.google.gson.annotations.SerializedName("fullname")
+    private String mFullname;
+
+    @com.google.gson.annotations.SerializedName("address")
+    private String mAddress;
+
+    @com.google.gson.annotations.SerializedName("__createdAt")
+    private Date mCreatedAt;
+
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
@@ -27,12 +38,14 @@ public class StatusList {
 
     }
 
-    public StatusList(String userId, String status, int mood, String location, String bloburl) {
+    public StatusList(String userId, String fullname, String status, int mood, String location, String bloburl, String address) {
         this.setUserid(userId);
+        this.setFullname(fullname);
         this.setStatus(status);
         this.setMood(mood);
         this.setLocation(location);
         this.setBloburl(bloburl);
+        this.setAddress(address);
     }
 
     public String getStatus() {
@@ -72,5 +85,25 @@ public class StatusList {
 
     public void setMood(int mMood) {
         this.mMood = mMood;
+    }
+
+    public String getFullname() {
+        return mFullname;
+    }
+
+    public void setFullname(String mFullname) {
+        this.mFullname = mFullname;
+    }
+
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String mAddress) {
+        this.mAddress = mAddress;
+    }
+
+    public Date getCreatedAt() {
+        return mCreatedAt;
     }
 }
