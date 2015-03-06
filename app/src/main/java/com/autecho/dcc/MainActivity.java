@@ -9,11 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, FeedFragment.OnFragmentInteractionListener, PicturesFragment.OnFragmentInteractionListener, MakeEntry.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, FeedFragment.OnFragmentInteractionListener, PicturesFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener, MakeEntry.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -24,8 +22,6 @@ public class MainActivity extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +53,12 @@ public class MainActivity extends Activity
                 mTitle = getString(R.string.gallery);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new PicturesFragment())
+                        .commit();
+                break;
+            case 2:
+                mTitle = getString(R.string.map);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new MapFragment())
                         .commit();
                 break;
         }

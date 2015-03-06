@@ -115,8 +115,7 @@ public class StatusAdapter extends ArrayAdapter<StatusList> {
         if(currentItem.getBloburl().equals("no")){
             mNetworkImageView.setVisibility(View.GONE);
         }else{
-
-
+            mNetworkImageView.setVisibility(View.VISIBLE);
             // Get the ImageLoader through your singleton class.
             mImageLoader = MySingleton.getInstance(getContext()).getImageLoader();
 
@@ -126,8 +125,6 @@ public class StatusAdapter extends ArrayAdapter<StatusList> {
             Log.d("The image url is", imageUrl[0]);
             mNetworkImageView.setImageUrl(imageUrl[0], mImageLoader);
         }
-
-
         return row;
     }
 }
