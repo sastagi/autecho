@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.aeris.neo.Neo">
+
+    <LinearLayout
+        android:id="@+id/dashboard"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical" >
+
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:layout_weight="1">
+            <lecho.lib.hellocharts.view.PieChartView
+                android:id="@+id/pieChart"
+                android:layout_weight="2"
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/pieChartLabels"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_weight="3"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/billed"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView android:id="@+id/billed_image"   android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"  android:background="@drawable/billed" />
+                    <TextView android:id="@+id/billed_text" android:layout_weight="0.5" android:layout_width="0dp" android:text="Happy"
+                        android:layout_height="wrap_content"  android:layout_marginLeft="2dp" android:layout_marginTop="5dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/provisioned"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView android:id="@+id/provisioned_image"  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"  android:background="@drawable/provisioned"/>
+                    <TextView android:id="@+id/provisioned_text" android:layout_weight="0.5" android:layout_width="wrap_content" android:text="Normal"
+                        android:layout_height="wrap_content" android:layout_marginLeft="2dp" android:layout_marginTop="5dp"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
+                    <ImageView android:id="@+id/suspended_image"  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"  android:background="@drawable/suspended" />
+                    <TextView android:id="@+id/suspended_text" android:layout_weight="0.5" android:layout_width="0dp" android:text="Sad"
+                        android:layout_height="wrap_content"  android:layout_marginLeft="2dp" android:layout_marginTop="5dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/suspended"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView android:id="@+id/cancelled_image"  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"  android:background="@drawable/cancelled"/>
+                    <TextView android:id="@+id/cancelled_text" android:layout_weight="0.5" android:layout_width="wrap_content" android:text="Cancel"
+                        android:layout_height="wrap_content" android:layout_marginLeft="2dp" android:layout_marginTop="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+            <lecho.lib.hellocharts.view.ColumnChartView
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:paddingTop="5dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/progressScreen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+    </LinearLayout>
+</RelativeLayout>
+

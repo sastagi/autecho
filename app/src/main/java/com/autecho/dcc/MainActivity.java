@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, FeedFragment.OnFragmentInteractionListener, PicturesFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener, MakeEntry.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, FeedFragment.OnFragmentInteractionListener, PicturesFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener, DashboardFragment.OnFragmentInteractionListener, MakeEntry.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -59,6 +59,12 @@ public class MainActivity extends Activity
                 mTitle = getString(R.string.map);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new MapFragment())
+                        .commit();
+                break;
+            case 3:
+                mTitle = getString(R.string.map);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new DashboardFragment())
                         .commit();
                 break;
         }
