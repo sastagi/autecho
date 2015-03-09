@@ -3,7 +3,6 @@ package com.autecho.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.shapes.RectShape;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,17 +90,6 @@ public class StatusAdapter extends ArrayAdapter<StatusList> {
         }
         postedField.setText(timevalue);
 
-        if(!currentItem.getLocation().equals("no")){
-            final TextView location = (TextView) row.findViewById(R.id.location);
-            if(currentItem.getAddress()!=null)
-                location.setText("at "+currentItem.getAddress());
-            else
-                location.setText("");
-        }else{
-            final TextView location = (TextView) row.findViewById(R.id.location);
-            location.setText("");
-        }
-
         final ImageView icon = (ImageView) row.findViewById(R.id.icon);
         MyShapeDrawable icon1 = new MyShapeDrawable(new RectShape());
         icon1.getInflection(currentItem.getMood());
@@ -114,7 +102,7 @@ public class StatusAdapter extends ArrayAdapter<StatusList> {
 
         if(currentItem.getBloburl().equals("no")){
             mNetworkImageView.setVisibility(View.GONE);
-        }else{
+        }else {
             mNetworkImageView.setVisibility(View.VISIBLE);
             // Get the ImageLoader through your singleton class.
             mImageLoader = MySingleton.getInstance(getContext()).getImageLoader();
@@ -122,9 +110,35 @@ public class StatusAdapter extends ArrayAdapter<StatusList> {
             // Set the URL of the image that should be loaded into this view, and
             // specify the ImageLoader that will be used to make the request.
             String[] imageUrl = currentItem.getBloburl().split("\\?");
-            Log.d("The image url is", imageUrl[0]);
+            //Log.d("The image url is", imageUrl[0]);
             mNetworkImageView.setImageUrl(imageUrl[0], mImageLoader);
         }
+
+
+        if(currentItem.getBloburl().equals("no")){
+            final TextView location = (TextView) row.findViewById(R.id.location);
+            location.setVisibility(View.VISIBLE);
+            setLocationData(currentItem, location);
+        } else{
+            final TextView location = (TextView) row.findViewById(R.id.locationwithimage);
+            location.setVisibility(View.VISIBLE);
+            setLocationData(currentItem, location);
+        }
+
+
+
         return row;
+    }
+
+    private void setLocationData(StatusList currentItem, TextView location){
+        if(!currentItem.getLocation().equals("no")){
+
+            if(currentItem.getAddress()!=null)
+                location.setText("at "+currentItem.getAddress());
+            else
+                location.setText("");
+        }else{
+            location.setText("");
+        }
     }
 }

@@ -124,7 +124,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                     for (StatusList item : result) {
                         mAdapter.add(item);
                     }
-
+                    getActivity().findViewById(R.id.progress_wheel).setVisibility(View.GONE);
                 } else {
                     Log.d("ERROR FETCHING ITEMS", "Unable to fetch items from mobile service");
                 }

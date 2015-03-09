@@ -62,7 +62,7 @@ public class MainActivity extends Activity
                         .commit();
                 break;
             case 3:
-                mTitle = getString(R.string.map);
+                mTitle = getString(R.string.dashboard);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new DashboardFragment())
                         .commit();
@@ -78,9 +78,6 @@ public class MainActivity extends Activity
             case 2:
                 mTitle = getString(R.string.gallery);
                 break;
-            /*case 3:
-                mTitle = getString(R.string.video);
-                break;*/
             case 3:
                 mTitle = getString(R.string.map);
                 break;
