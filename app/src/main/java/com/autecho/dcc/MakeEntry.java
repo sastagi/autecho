@@ -96,6 +96,9 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
     private Uri fileUri = null;
     private View imageLayout;
     private Button imageButton;
+    private Button mLocation;
+    private View mask = null;
+    private View progress = null;
     private static final String TAG = "CallCamera";
 
     private static final int PICK_FROM_CAMERA = 1;
@@ -160,12 +163,20 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         mSeekBar.setProgress(50);
         mSeekBar.setOnSeekBarChangeListener(this);
         statusField = (EditText)view.findViewById(R.id.text);
+        mask = view.findViewById(R.id.mask);
+        progress = view.findViewById(R.id.progress_wheel);
 
-        final Button mLocation = (Button)view.findViewById(R.id.location);
+        mLocation = (Button)view.findViewById(R.id.location);
         mLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLocaction();
+                if(userLocation.equals("no"))
+                    getLocaction();
+                else{
+                    userLocation="no";
+                    mLocation.setBackgroundResource(R.drawable.locationoff);
+                }
+
             }
         });
 
@@ -223,6 +234,8 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
         mPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mask.setVisibility(View.VISIBLE);
+                progress.setVisibility(View.VISIBLE);
                 if(photoExists){
                     //getBlobCount for container;
                     mStorageService.getBlobsForContainer("moodesto",mSeekBar.getProgress()+"-"+statusField.getText().toString());
@@ -437,7 +450,6 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
 
     public void sendMoodDataToAzure(){
         String status = statusField.getText().toString();//get status message of the user
-        //get user id
         Context mContext = Autecho.mContext;
         SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String userId = sharedPref.getString(getString(R.string.userid),null);
@@ -450,6 +462,8 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onCompleted(StatusList statusList, Exception e, ServiceFilterResponse serviceFilterResponse) {
                 Log.d("INSERTEST", "SUCCESS");
+                mask.setVisibility(View.GONE);
+                progress.setVisibility(View.GONE);
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new FeedFragment())
@@ -511,6 +525,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                                     String[] addressparts = address.split(", ");
                                     String[] state = addressparts[2].split(" ");
                                     userAddress = addressparts[1]+", " + state[0];
+                                    mLocation.setBackgroundResource(R.drawable.locationon);
                                     Log.d("The address is: ",userAddress);
                                     //Toast.makeText(CreateAut.this, location, Toast.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
@@ -521,6 +536,7 @@ public class MakeEntry extends Fragment implements SeekBar.OnSeekBarChangeListen
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        //Unable to find location message
                     }
                 });
                 // Add the request to the RequestQueue.

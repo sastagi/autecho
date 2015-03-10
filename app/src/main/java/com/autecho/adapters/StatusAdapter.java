@@ -113,16 +113,17 @@ public class StatusAdapter extends ArrayAdapter<StatusList> {
             //Log.d("The image url is", imageUrl[0]);
             mNetworkImageView.setImageUrl(imageUrl[0], mImageLoader);
         }
-
+        final TextView location = (TextView) row.findViewById(R.id.location);
+        final TextView locationwithimage = (TextView) row.findViewById(R.id.locationwithimage);
 
         if(currentItem.getBloburl().equals("no")){
-            final TextView location = (TextView) row.findViewById(R.id.location);
             location.setVisibility(View.VISIBLE);
+            locationwithimage.setVisibility(View.GONE);
             setLocationData(currentItem, location);
         } else{
-            final TextView location = (TextView) row.findViewById(R.id.locationwithimage);
-            location.setVisibility(View.VISIBLE);
-            setLocationData(currentItem, location);
+            location.setVisibility(View.GONE);
+            locationwithimage.setVisibility(View.VISIBLE);
+            setLocationData(currentItem, locationwithimage);
         }
 
 
