@@ -1,15 +1,26 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+        release {
+            storeFile file("/Users/Santosh/Documents/personal/keystore/autecho-release-key.keystore")
+            storePassword "Autecho321"
+            keyAlias "autecho"
+            keyPassword "Autecho321"
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "20.0.0"
-
     defaultConfig {
         applicationId "com.autecho.dcc"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
+        versionCode 3
         versionName "1.0"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
@@ -19,6 +30,8 @@ android {
     }
     dexOptions {
         preDexLibraries = false
+    }
+    productFlavors {
     }
 }
 

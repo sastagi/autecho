@@ -50,18 +50,12 @@ public class MainActivity extends Activity
                         .commit();
                 break;
             case 1:
-                mTitle = getString(R.string.gallery);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new PicturesFragment())
-                        .commit();
-                break;
-            case 2:
                 mTitle = getString(R.string.map);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new MapFragment())
                         .commit();
                 break;
-            case 3:
+            case 2:
                 mTitle = getString(R.string.dashboard);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new DashboardFragment())
@@ -76,12 +70,9 @@ public class MainActivity extends Activity
                 mTitle = getString(R.string.feed);
                 break;
             case 2:
-                mTitle = getString(R.string.gallery);
-                break;
-            case 3:
                 mTitle = getString(R.string.map);
                 break;
-            case 4:
+            case 3:
                 mTitle = getString(R.string.dashboard);
                 break;
         }

@@ -27,7 +27,10 @@
         android:theme="@style/CustomActionBarTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBQL9lLk6UGlGtykj7xXElNwQz70N4bncE"/>
+            android:value="AIzaSyBqf3Fd3fcBESi-UCPQnH5lNPPpAh-hSfU"/>
+            <!--android:value="AIzaSyA62VKCdt2-dQ5A0rGurEFP2azwyaVsbCg"/>-->
+            <!--android:value="AIzaSyBQL9lLk6UGlGtykj7xXElNwQz70N4bncE"-->
+
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity

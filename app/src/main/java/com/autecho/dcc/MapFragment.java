@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.autecho.model.StatusList;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.QueryOrder;
@@ -41,6 +44,8 @@ public class MapFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     MapView mMapView;
     private GoogleMap googleMap;
+    private View progressWheel;
+    private LatLngBounds.Builder builder;
     private MobileServiceTable<StatusList> mStatusTable;
 
     /**
@@ -77,6 +82,7 @@ public class MapFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
+        progressWheel = v.findViewById(R.id.progress_wheel);
         mMapView.onCreate(savedInstanceState);
 
         mMapView.onResume();// needed to get the map to display immediately
@@ -116,6 +122,7 @@ public class MapFragment extends Fragment {
     }
 
     private void drawMarkers(){
+        builder = new LatLngBounds.Builder();
         googleMap = mMapView.getMap();
         mStatusTable = mClient.getTable(StatusList.class);
         Context mContext = Autecho.mContext;
@@ -136,21 +143,29 @@ public class MapFragment extends Fragment {
                             Log.d("The co-ordinates are",""+latitude+"::"+longitude);
                             MarkerOptions marker = new MarkerOptions().position(
                                     new LatLng(latitude, longitude)).title(item.getStatus());
-
+                            builder.include(marker.getPosition());
                             // Changing marker icon
                             marker.icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
                             // adding marker
                             googleMap.addMarker(marker);
                         }
                     }
-
+                    LatLngBounds bounds = builder.build();
+                    int padding = 50; // offset from edges of the map in pixels
+                    CameraUpdate camerUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                    googleMap.animateCamera(camerUpdate);
+                    progressWheel.setVisibility(View.GONE);
                 } else {
                     Log.d("ERROR FETCHING ITEMS", "Unable to fetch items from mobile service");
                 }
             }
         });
+
+    }
+
+    private void showMapMarkers(){
 
     }
 
