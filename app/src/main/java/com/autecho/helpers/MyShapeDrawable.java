@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
  * Created by Santosh on 3/2/15.
  */
 public class MyShapeDrawable extends ShapeDrawable {
+    //Implement surface view
     private Paint mStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     //private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
