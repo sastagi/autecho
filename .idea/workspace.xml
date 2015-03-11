@@ -17,8 +17,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.autecho.dcc" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbf3fdba-28cc-4df0-b55d-4e2c17a71583" name="Default" comment="New manifest">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="" />
+    <list default="true" id="dbf3fdba-28cc-4df0-b55d-4e2c17a71583" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Autecho.iws" />
@@ -75,7 +74,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.34732273" vertical-offset="165" max-vertical-offset="915">
-              <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1944,7 +1943,11 @@
       <created>1426098163927</created>
       <updated>1426098163927</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="New manifest">
+      <created>1426098473806</created>
+      <updated>1426098473806</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -2018,7 +2021,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Created sections for the navigation drawer" />
     <MESSAGE value="Login logic implemented" />
     <MESSAGE value="Shared preferences saved" />
     <MESSAGE value="Providing correct title on launch" />
@@ -2043,7 +2045,8 @@
     <MESSAGE value="Processing indicator for feed page" />
     <MESSAGE value="Processing indicator for make entry page" />
     <MESSAGE value="Release version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release version" />
+    <MESSAGE value="New manifest" />
+    <option name="LAST_COMMIT_MESSAGE" value="New manifest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2450,7 +2453,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34732273" vertical-offset="165" max-vertical-offset="915">
-          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
         </state>
       </provider>
