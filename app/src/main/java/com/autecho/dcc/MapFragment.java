@@ -128,6 +128,7 @@ public class MapFragment extends Fragment {
         Context mContext = Autecho.mContext;
         SharedPreferences sharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String userId = sharedPref.getString(getString(R.string.userid),null);
+        int count =0;
         mStatusTable.where().field("userid").eq(userId).orderBy("__createdAt", QueryOrder.Descending).execute(new TableQueryCallback<StatusList>() {
 
             public void onCompleted(List<StatusList> result, int count, Exception exception, ServiceFilterResponse response) {
@@ -137,6 +138,7 @@ public class MapFragment extends Fragment {
                         //Add Markers
                         // create marker
                         if(!item.getLocation().equals("no")){
+                            count=count+1;
                             String[] location = item.getLocation().split(",");
                             double latitude = Double.parseDouble(location[0]);
                             double longitude = Double.parseDouble(location[1]);
@@ -152,11 +154,14 @@ public class MapFragment extends Fragment {
                             googleMap.addMarker(marker);
                         }
                     }
-                    LatLngBounds bounds = builder.build();
-                    int padding = 50; // offset from edges of the map in pixels
-                    CameraUpdate camerUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-                    googleMap.animateCamera(camerUpdate);
-                    progressWheel.setVisibility(View.GONE);
+
+                    int padding = 100; // offset from edges of the map in pixels
+                    if(count>0){
+                        LatLngBounds bounds = builder.build();
+                        CameraUpdate camerUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                        googleMap.animateCamera(camerUpdate);
+                        progressWheel.setVisibility(View.GONE);
+                    }
                 } else {
                     Log.d("ERROR FETCHING ITEMS", "Unable to fetch items from mobile service");
                 }

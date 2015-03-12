@@ -159,9 +159,11 @@ public class DashboardFragment extends Fragment {
                             dataArray[0][currentCount] = (dataArray[0][currentCount]+item.getMood())/++moodCount;
                         }
                     }
-                    drawPieData();
-                    Log.d("The dates are",dateArray[0]+dateArray[1]+dateArray[2]+dateArray[3]);
-                    drawColumnChart();
+                    if(dateArray[0]!=null) {
+                        drawPieData();
+                        Log.d("The dates are", dateArray[0] + dateArray[1] + dateArray[2] + dateArray[3]);
+                        drawColumnChart();
+                    }
                 } else {
                     Log.d("ERROR FETCHING ITEMS", "Unable to fetch items from mobile service");
                 }
