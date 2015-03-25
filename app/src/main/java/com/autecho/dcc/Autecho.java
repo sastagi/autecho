@@ -15,7 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.autecho.helpers.AzureConnection;
 import com.autecho.model.UserList;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -41,8 +40,6 @@ public class Autecho extends FragmentActivity {
     public static Context mContext;
 
     private MobileServiceTable<UserList> mUserList;
-
-    private AzureConnection azureConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
