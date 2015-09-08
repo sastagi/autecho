@@ -1,1 +1,3 @@
-# minesweeper
+# autecho
+
+![Video Walkthrough](autecho.gif)
