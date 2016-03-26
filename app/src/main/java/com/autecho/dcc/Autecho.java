@@ -1,7 +1,10 @@
 package com.autecho.dcc;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,9 +16,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.autecho.account.AccountInfo;
+import com.autecho.account.LoginActivity;
 import com.autecho.model.UserList;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -44,6 +51,8 @@ public class Autecho extends FragmentActivity {
 
     private AccountManager mAccountManager;
 
+    private boolean mInvalidate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +60,7 @@ public class Autecho extends FragmentActivity {
         mContext = this;
 
         mAccountManager = AccountManager.get(this);
-
+        showAccountPicker(AccountInfo.AUTHTOKENTYPE, false);
         //check if account exists
 
         //If account exists, go to MainActivity else go to login
@@ -148,5 +157,24 @@ public class Autecho extends FragmentActivity {
                 return false;
             }
         });
+    }
+
+    private void showAccountPicker(final String authTokenType, final boolean invalidate) {
+        mInvalidate = invalidate;
+        final Account availableAccounts[] = mAccountManager.getAccountsByType(AccountInfo.ACCOUNT_TYPE);
+
+        if (availableAccounts.length == 0) {
+            Toast.makeText(this, "No accounts", Toast.LENGTH_LONG).show();
+            Intent mainIntent = new Intent(Autecho.this,LoginActivity.class);
+            //mainIntent.putExtra(getString(R.string.userid), ((EditText)findViewById(R.id.login_email_address)).getText().toString());
+            this.startActivity(mainIntent);
+            this.finish();
+        } else {
+            String name[] = new String[availableAccounts.length];
+            for (int i = 0; i < availableAccounts.length; i++) {
+                name[i] = availableAccounts[i].name;
+            }
+            //Show feed screen
+        }
     }
 }

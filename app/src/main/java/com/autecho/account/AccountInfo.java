@@ -17,6 +17,6 @@ public class AccountInfo {
     /**
      * Auth token types
      */
-    public static final String AUTHTOKEN = "Full access to an Autecho account";
+    public static final String AUTHTOKENTYPE = "Full access to an Autecho account";
 
 }
