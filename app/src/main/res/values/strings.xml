@@ -10,6 +10,7 @@
     <string name="bio">Bio</string>
 
     <!-- Login Page -->
+    <string name="login">Login</string>
     <string name="register">Sign Up</string>
     <string name="password_hint">Password</string>
     <string name="username">username</string>

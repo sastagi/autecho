@@ -65,7 +65,7 @@ public class Autecho extends FragmentActivity {
 
         //If account exists, go to MainActivity else go to login
 
-        fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
+        /*fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
         fragments[REGISTERATION] = getSupportFragmentManager().findFragmentById(R.id.RegisterFragment);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -156,7 +156,7 @@ public class Autecho extends FragmentActivity {
                 }
                 return false;
             }
-        });
+        });*/
     }
 
     private void showAccountPicker(final String authTokenType, final boolean invalidate) {
