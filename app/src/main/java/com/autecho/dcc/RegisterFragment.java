@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -31,6 +32,10 @@ import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 
 import java.util.UUID;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import static com.autecho.dcc.Autecho.mClient;
 
 public class RegisterFragment extends Fragment{
@@ -44,11 +49,21 @@ public class RegisterFragment extends Fragment{
 
     private AzureConnection azureConnection;
 
+    @Bind(R.id.register) Button register;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         helpers = new Helpers();
-        return inflater.inflate(R.layout.register_login, container, false);
+        View view = inflater.inflate(R.layout.register_login, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @OnClick(R.id.register)
+    public void onClick(View v) {
+        getActivity().findViewById(R.id.loginmain).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.registerationmain).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -60,12 +75,13 @@ public class RegisterFragment extends Fragment{
         // Initialize the progress bar
         mProgressBar.setVisibility(ProgressBar.GONE);
         //User clicks on the registeration button
-        getActivity().findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                getActivity().findViewById(R.id.loginmain).setVisibility(View.GONE);
-                getActivity().findViewById(R.id.registerationmain).setVisibility(View.VISIBLE);
-            }
-        });
+//        @OnClick(register)
+//        register.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                getActivity().findViewById(R.id.loginmain).setVisibility(View.GONE);
+//                getActivity().findViewById(R.id.registerationmain).setVisibility(View.VISIBLE);
+//            }
+//        });
         //User clicks on the "Done" button on the registration screen
         getActivity().findViewById(R.id.send_email).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

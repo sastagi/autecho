@@ -1,5 +1,6 @@
 package com.autecho.dcc;
 
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,11 +42,19 @@ public class Autecho extends FragmentActivity {
 
     private MobileServiceTable<UserList> mUserList;
 
+    private AccountManager mAccountManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autecho);
         mContext = this;
+
+        mAccountManager = AccountManager.get(this);
+
+        //check if account exists
+
+        //If account exists, go to MainActivity else go to login
 
         fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
         fragments[REGISTERATION] = getSupportFragmentManager().findFragmentById(R.id.RegisterFragment);
