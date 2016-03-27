@@ -14,10 +14,6 @@ public class LoginPresenter implements LoginInteractor.OnLoginFinishedListener{
     }
 
     public void validateCredentials(String username, String password) {
-        if (mLoginActivity != null) {
-            mLoginActivity.showProgress();
-        }
-
         mLoginInteractor.login(username, password, this);
     }
 
