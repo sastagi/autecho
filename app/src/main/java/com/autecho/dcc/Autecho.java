@@ -1,6 +1,12 @@
 package com.autecho.dcc;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,13 +14,18 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.autecho.account.AccountInfo;
+import com.autecho.account.LoginActivity;
 import com.autecho.model.UserList;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -41,13 +52,21 @@ public class Autecho extends FragmentActivity {
 
     private MobileServiceTable<UserList> mUserList;
 
+    public static AccountManager mAccountManager;
+
+    private boolean mInvalidate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autecho);
         mContext = this;
 
-        fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
+        //check if account exists
+
+        //If account exists, go to MainActivity else go to login
+
+        /*fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
         fragments[REGISTERATION] = getSupportFragmentManager().findFragmentById(R.id.RegisterFragment);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -55,7 +74,7 @@ public class Autecho extends FragmentActivity {
             transaction.hide(f);
         }
         transaction.commit();
-        transaction.show(fragments[LANDING]);
+        transaction.show(fragments[LANDING]);*/
         //Create the database connection
         try {
             // Create the Mobile Service Client instance, using the provided
@@ -66,12 +85,13 @@ public class Autecho extends FragmentActivity {
                     this);
 
             // Get the Mobile Service Table instance to use
-            mUserList = mClient.getTable(UserList.class);
         } catch (MalformedURLException e) {
             //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
         }
 
-        final SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        mAccountManager = AccountManager.get(this);
+        checkAccount(AccountInfo.AUTHTOKENTYPE, false);
+        /*final SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         if(sharedPref.getString(getString(R.string.userid),null)!=null){
             Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
@@ -137,6 +157,75 @@ public class Autecho extends FragmentActivity {
                     });
                 }
                 return false;
+            }
+        });*/
+    }
+
+    private void checkAccount(final String authTokenType, final boolean invalidate) {
+        mInvalidate = invalidate;
+        final Account availableAccounts[] = mAccountManager.getAccountsByType(AccountInfo.ACCOUNT_TYPE);
+
+        if (availableAccounts.length == 0) {
+            addNewAccount(AccountInfo.ACCOUNT_TYPE,authTokenType);
+        } else {
+            String name[] = new String[availableAccounts.length];
+            for (int i = 0; i < availableAccounts.length; i++) {
+                name[i] = availableAccounts[i].name;
+                showMessage(name[i]);
+            }
+            getExistingAccountAuthToken(availableAccounts[0], authTokenType);
+            //Show feed screen
+        }
+    }
+
+    private void addNewAccount(String accountType, String authTokenType) {
+        final AccountManagerFuture<Bundle> future = mAccountManager.addAccount(accountType, authTokenType, null, null, this, new AccountManagerCallback<Bundle>() {
+            @Override
+            public void run(AccountManagerFuture<Bundle> future) {
+                try {
+                    Bundle bnd = future.getResult();
+                    showMessage("Account was created");
+                    Log.d("udinic", "AddNewAccount Bundle is " + bnd);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showMessage(e.getMessage());
+                }
+            }
+        }, null);
+    }
+
+    private void getExistingAccountAuthToken(Account account, String authTokenType) {
+        final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(account, authTokenType, null, this, null, null);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                showMessage("Succcess");
+                try {
+                    Bundle bnd = future.getResult();
+                    final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
+                    showMessage("Succcess"+authtoken);
+                    Intent mainIntent = new Intent(Autecho.this,MainActivity.class);
+                    //mainIntent.putExtra(getString(R.string.userid), ((EditText)findViewById(R.id.login_email_address)).getText().toString());
+                    Autecho.this.startActivity(mainIntent);
+                    Autecho.this.finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showMessage("Failure"+e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    private void showMessage(final String msg) {
+        if (TextUtils.isEmpty(msg))
+            return;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
     }

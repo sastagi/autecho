@@ -9,7 +9,7 @@
 
 
 
-    <fragment android:name="com.autecho.dcc.RegisterFragment"
+    <!--<fragment android:name="com.autecho.dcc.RegisterFragment"
         android:id="@+id/RegisterFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -17,6 +17,6 @@
     <fragment android:name="com.autecho.dcc.LandingFragment"
         android:id="@+id/LandingFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" />-->
 
 </LinearLayout>
