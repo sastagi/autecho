@@ -185,7 +185,6 @@ public class Autecho extends FragmentActivity {
                 try {
                     Bundle bnd = future.getResult();
                     showMessage("Account was created");
-                    Log.d("udinic", "AddNewAccount Bundle is " + bnd);
 
                 } catch (Exception e) {
                     e.printStackTrace();
