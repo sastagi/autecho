@@ -16,6 +16,5 @@ public class RegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_login);
         ButterKnife.bind(this);
-
     }
 }
