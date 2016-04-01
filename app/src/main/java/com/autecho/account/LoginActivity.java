@@ -78,9 +78,13 @@ public class LoginActivity extends Activity{
         finish();
     }
 
+    public void navigateToRegistration() {
+        startActivity(new Intent(this, RegistrationActivity.class));
+    }
+
     @OnClick(R.id.register)
     protected void registerUser(){
-        mLoginPresenter.validateCredentials(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        mLoginPresenter.goToRegistration();
     }
 
     @OnClick(R.id.login)

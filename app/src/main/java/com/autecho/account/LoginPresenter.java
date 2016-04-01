@@ -17,6 +17,10 @@ public class LoginPresenter implements LoginInteractor.OnLoginFinishedListener{
         mLoginInteractor.login(username, password, this);
     }
 
+    public void goToRegistration() {
+        mLoginActivity.navigateToRegistration();
+    }
+
     @Override public void onCredentialsError() {
         //mLoginActivity.hideProgress();
         mLoginActivity.showCredentialsError();
