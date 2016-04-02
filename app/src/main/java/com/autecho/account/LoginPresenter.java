@@ -22,7 +22,7 @@ public class LoginPresenter implements LoginInteractor.OnLoginFinishedListener{
     }
 
     @Override public void onCredentialsError() {
-        //mLoginActivity.hideProgress();
+        mLoginActivity.hideProgress();
         mLoginActivity.showCredentialsError();
     }
 
