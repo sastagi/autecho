@@ -65,16 +65,6 @@ public class Autecho extends FragmentActivity {
         //check if account exists
 
         //If account exists, go to MainActivity else go to login
-
-        /*fragments[LANDING] = getSupportFragmentManager().findFragmentById(R.id.LandingFragment);
-        fragments[REGISTERATION] = getSupportFragmentManager().findFragmentById(R.id.RegisterFragment);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        for(Fragment f:fragments) {
-            transaction.hide(f);
-        }
-        transaction.commit();
-        transaction.show(fragments[LANDING]);*/
         //Create the database connection
         try {
             // Create the Mobile Service Client instance, using the provided
