@@ -35,15 +35,6 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 import static com.autecho.dcc.Autecho.mClient;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DashboardFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DashboardFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
