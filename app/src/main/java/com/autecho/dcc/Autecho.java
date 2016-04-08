@@ -164,7 +164,6 @@ public class Autecho extends FragmentActivity {
                 showMessage(name[i]);
             }
             getExistingAccountAuthToken(availableAccounts[0], authTokenType);
-            //Show feed screen
         }
     }
 
