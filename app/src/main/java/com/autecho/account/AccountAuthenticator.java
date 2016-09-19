@@ -13,9 +13,6 @@ import android.util.Log;
 
 import com.autecho.dcc.Autecho;
 
-/**
- * Created by sastagi on 3/21/16.
- */
 public class AccountAuthenticator extends AbstractAccountAuthenticator{
 
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";

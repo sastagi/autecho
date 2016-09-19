@@ -106,8 +106,8 @@
     <orderEntry type="library" exported="" name="materialish-progress-1.4" level="project" />
     <orderEntry type="library" exported="" name="mobileservices-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="rxjava-1.0.17" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.0.17" level="project" />
     <orderEntry type="library" exported="" name="charts_library" level="project" />
     <orderEntry type="library" exported="" name="android-maps-utils-0.3.4" level="project" />
     <orderEntry type="library" exported="" name="volley" level="project" />

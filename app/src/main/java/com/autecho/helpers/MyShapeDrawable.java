@@ -63,6 +63,7 @@ public class MyShapeDrawable extends ShapeDrawable {
         paint_eye_fill.setAntiAlias(true);
         paint_fill.setColor(android.graphics.Color.rgb(255,255,255));
         paint_fill.setAntiAlias(true);
+        //te
 
         canvas.drawCircle(50, 50, 40, opaint);
         canvas.drawCircle(50, 50, 40, mpaint);
