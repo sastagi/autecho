@@ -13,7 +13,7 @@ import android.util.Log;
 
 import com.autecho.dcc.Autecho;
 
-public class AccountAuthenticator extends AbstractAccountAuthenticator{
+public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public final static String ARG_AUTH_TYPE = "AUTH_TYPE";
@@ -79,7 +79,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator{
         // If we get here, then we couldn't access the user's password - so we
         // need to re-prompt them for their credentials. We do that by creating
         // an intent to display our AuthenticatorActivity.
-        final Intent intent = new Intent(Autecho.mContext,  LoginActivity.class);
+        final Intent intent = new Intent(Autecho.mContext, LoginActivity.class);
         intent.putExtra(AccountAuthenticator.ARG_ACCOUNT_TYPE, AccountInfo.ACCOUNT_TYPE);
         intent.putExtra(AccountAuthenticator.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AccountAuthenticator.ARG_IS_ADDING_NEW_ACCOUNT, true);
@@ -92,7 +92,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator{
 
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        final Intent intent = new Intent(Autecho.mContext,  LoginActivity.class);
+        final Intent intent = new Intent(Autecho.mContext, LoginActivity.class);
         intent.putExtra(AccountAuthenticator.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(AccountAuthenticator.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AccountAuthenticator.ARG_IS_ADDING_NEW_ACCOUNT, true);
